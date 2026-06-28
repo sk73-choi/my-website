@@ -898,6 +898,21 @@ SEO·읽기·성능)을 dialog.txt 에 추가하고 요약 갱신.
 - 본 변경을 dialog.txt·CLAUDE.md 에 반영.
 
 
+────────────────────────────────────────────────────────────────────────────
+[USER] 비공개 저장소+인증 호스팅이란? → Cloudflare Access로 자료실만 보호하는
+       단계별 가이드 (설명만, 코드 변경 없음)
+────────────────────────────────────────────────────────────────────────────
+[ASSISTANT]
+- 진짜 차단 옵션 설명: (A) Cloudflare Pages+Access ⭐ (B) Vercel/Netlify 보호(유료)
+  (C) 파일만 비공개 스토리지(R2/S3)+서명URL (D) 서버리스 함수 게이트.
+- Cloudflare Access 가이드(자료실만): github.io 는 Access 불가 → Cloudflare Pages 로
+  이전(무료 *.pages.dev 가능, vite base 를 '/' 로 변경 필요) → Zero Trust→Access→
+  Self-hosted 앱에 Path=files 지정 → 이메일 OTP + Allow(본인 이메일) 정책.
+  /files 페이지·PDF 직링크 모두 차단, 나머지는 공개. 전부 무료 범위(≤50명).
+- 주의: 기존 GitHub Pages 는 반드시 폐기(우회 방지), Access 도입 시 RequireAdmin 은
+  중복이라 제거 권장(자료 편집 /admin/files 는 GitHub 토큰 유지). 실제 적용은 보류.
+
+
 ================================================================================
 [현재 상태 요약]
 - 저장소: https://github.com/sk73-choi/my-website (공개) / 라이브: /my-website/
@@ -931,5 +946,6 @@ SEO·읽기·성능)을 dialog.txt 에 추가하고 요약 갱신.
   스크린샷 docs/screenshots/*.png) — 자료실 '매뉴얼'에도 등록
 - 페이지별 강조색: 홈=보라, 소개=하늘, 블로그=초록(라임→틸), 즐겨찾기=주황,
   사진=노랑→분홍, 자료=보라
-- 남은 선택지: og.png(공유 썸네일), Giscus 댓글, PWA, 프라이버시 분석
+- 남은 선택지: og.png(공유 썸네일), Giscus 댓글, PWA, 프라이버시 분석,
+  자료실 진짜 보호(Cloudflare Pages+Access로 이전, /files 경로만 잠금 — 가이드만 받음)
 ================================================================================
