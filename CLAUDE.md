@@ -38,6 +38,10 @@ GitHub Pages로 배포. 파일 자료실(PDF/PPT/Excel/Word/MD) 포함.
 - 사진: public/photos/{카테고리}/ 폴더가 원본. 폴더에 이미지 추가/삭제 → 빌드 시
   prebuild(scripts/generate-photos.mjs)가 썸네일(.../thumbs/) + manifest
   (src/data/photos.generated.json) 생성. 관리자(/admin/photos)도 같은 폴더를 편집.
+  · 프레임 2장↑ 이미지는 manifest 에 animated:true → 사진 페이지에서 "움직임" 배지.
+  · 사진 추가 후 커밋 전 권장: `npm run optimize:photos` (scripts/optimize-photos.mjs)
+    — 정지 이미지 1600px 재압축 + 움직이는 GIF→애니메이션 WebP 변환(용량 관리).
+    관리자 업로드 경로엔 자동 적용 안 됨(폴더 방식에서 수동 실행).
 - 소개: content/about.md  (frontmatter 프로필 + 소개/스킬/발자취 섹션)
 - 즐겨찾기: content/favorites.md  (## 카테고리 + "- [제목](URL) — 설명" 링크)
 - 소개·즐겨찾기는 content/*.md 가 단일 원본 → 파일 직접 수정/push 또는 관리자(/admin)
@@ -47,6 +51,14 @@ GitHub Pages로 배포. 파일 자료실(PDF/PPT/Excel/Word/MD) 포함.
 - 관리자에서 자료실 → 파일 업로드 → 저장하면 커밋·배포까지 자동.
 - 수동 시: public/files/{폴더}/ 에 파일 복사 → files.json 의 files 에 항목 추가 → push.
  
+## 작업 기록 (dialog.txt)
+- 프로젝트 루트의 `dialog.txt` 는 작업/대화 기록 로그(요청·구현 요약 누적).
+- 형식: `[USER]` 요청 요약 → `[ASSISTANT]` 처리 요약 블록을 구분선으로 쌓고,
+  맨 끝 `[현재 상태 요약]` 섹션에 최신 구조·기능을 정리해 둠.
+- 사용자가 "dialog.txt 업데이트" 라고 하면: 직전 업데이트 이후의 작업을 새
+  `[USER]/[ASSISTANT]` 항목으로 추가하고 `[현재 상태 요약]` 을 최신화한다.
+- 중요한 변경(구조·기능·워크플로)은 CLAUDE.md 와 dialog.txt 양쪽에 반영해 일치 유지.
+
 ## 코딩 컨벤션
 - 컴포넌트: PascalCase, 함수형 컴포넌트
 - 파일명: PascalCase.jsx (컴포넌트), camelCase.js (유틸/데이터)
