@@ -54,6 +54,18 @@ async function makeThumb(srcFile, destFile) {
   }
 }
 
+// 애니메이션(움직이는) 이미지인지 판별 — webp/gif/avif 의 프레임이 2개 이상이면 true
+const ANIM_RE = /\.(webp|gif|avif)$/i
+async function isAnimated(srcFile) {
+  if (!sharp || !ANIM_RE.test(srcFile)) return false
+  try {
+    const m = await sharp(srcFile, { animated: true }).metadata()
+    return (m.pages || 1) > 1
+  } catch {
+    return false
+  }
+}
+
 const categories = listCategories()
 const photos = []
 
@@ -73,6 +85,7 @@ for (const cat of categories) {
     const thumbName = `${file}.jpg`
     const thumbFile = join(dir, 'thumbs', thumbName)
     const ok = await makeThumb(srcFile, thumbFile)
+    const animated = await isAnimated(srcFile)
     const date = statSync(srcFile).mtime.toISOString().slice(0, 10)
     photos.push({
       id: `${cat}/${file}`,
@@ -81,6 +94,7 @@ for (const cat of categories) {
       src: `/photos/${cat}/${file}`,
       thumb: ok ? `/photos/${cat}/thumbs/${thumbName}` : `/photos/${cat}/${file}`,
       date,
+      ...(animated ? { animated: true } : {}),
     })
   }
 }

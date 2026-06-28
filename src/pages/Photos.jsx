@@ -8,6 +8,7 @@ import {
   Grid3x3,
   LayoutGrid,
   List,
+  Film,
 } from 'lucide-react'
 import { getSortedPhotos, categories } from '../data/photos'
 import { PageWrapper } from '../components/motion'
@@ -168,11 +169,20 @@ function Photos() {
                   src={base + photo.thumb}
                   alt={photo.title}
                   loading="lazy"
-                  className="h-16 w-16 flex-none rounded-xl object-cover"
+                  className={[
+                    'h-16 w-16 flex-none rounded-xl object-cover',
+                    photo.animated ? 'ring-2 ring-pink-500' : '',
+                  ].join(' ')}
                 />
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium text-gray-800 dark:text-gray-100">
-                    {photo.title}
+                  <p className="flex items-center gap-1.5 font-medium text-gray-800 dark:text-gray-100">
+                    <span className="truncate">{photo.title}</span>
+                    {photo.animated && (
+                      <span className="flex flex-none items-center gap-0.5 rounded-full bg-pink-500/15 px-1.5 py-0.5 text-[10px] font-bold text-pink-600 dark:text-pink-300">
+                        <Film size={10} />
+                        움직임
+                      </span>
+                    )}
                   </p>
                   <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
                     {photo.category} · {photo.date}
@@ -198,7 +208,13 @@ function Photos() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.03 }}
               whileHover={{ y: -4 }}
-              className="glass group relative aspect-square overflow-hidden rounded-2xl"
+              className={[
+                'glass group relative aspect-square overflow-hidden rounded-2xl',
+                // 움직이는 이미지는 분홍 테두리로 정적 이미지와 구분
+                photo.animated
+                  ? 'ring-2 ring-pink-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900'
+                  : '',
+              ].join(' ')}
             >
               <img
                 src={base + photo.thumb}
@@ -206,6 +222,13 @@ function Photos() {
                 loading="lazy"
                 className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
+              {/* 움직임 배지 */}
+              {photo.animated && (
+                <span className="absolute left-1.5 top-1.5 flex items-center gap-0.5 rounded-full bg-pink-600/90 px-1.5 py-0.5 text-[10px] font-bold text-white shadow-sm backdrop-blur-sm">
+                  <Film size={11} />
+                  움직임
+                </span>
+              )}
               {photo.title && (
                 <span className="absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-black/60 to-transparent px-2 py-1.5 text-left text-xs font-medium text-white">
                   {photo.title}
