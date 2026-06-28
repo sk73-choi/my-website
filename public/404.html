@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting…</title>
+    <script>
+      // SPA(GitHub Pages) 라우팅 대응: 없는 경로를 index.html 로 넘기면서
+      // 원래 경로를 쿼리스트링에 인코딩한다. (rafgraph/spa-github-pages 방식)
+      // pathSegmentsToKeep=1 → 프로젝트 페이지의 저장소명 세그먼트(/my-website) 유지
+      var pathSegmentsToKeep = 1
+      var l = window.location
+      l.replace(
+        l.protocol +
+          '//' +
+          l.hostname +
+          (l.port ? ':' + l.port : '') +
+          l.pathname
+            .split('/')
+            .slice(0, 1 + pathSegmentsToKeep)
+            .join('/') +
+          '/?/' +
+          l.pathname
+            .slice(1)
+            .split('/')
+            .slice(pathSegmentsToKeep)
+            .join('/')
+            .replace(/&/g, '~and~') +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash,
+      )
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>나의 포트폴리오 & 블로그</title>
+    <!-- 초기 테마 적용(깜빡임 방지): localStorage > 시스템 설정 -->
+    <script>
+      ;(function () {
+        try {
+          var t = localStorage.getItem('theme')
+          if (
+            t === 'dark' ||
+            (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          ) {
+            document.documentElement.classList.add('dark')
+          }
+        } catch (e) {}
+      })()
+    </script>
+    <!-- SPA(GitHub Pages): 404.html 이 인코딩해 넘긴 경로를 원래 URL 로 복원 -->
+    <script>
+      ;(function () {
+        var l = window.location
+        if (l.search[1] === '/') {
+          var decoded = l.search
+            .slice(1)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&')
+            })
+            .join('?')
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash)
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

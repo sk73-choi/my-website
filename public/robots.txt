@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sk73-choi.github.io/my-website/sitemap.xml
