@@ -38,7 +38,8 @@ function xmlEscape(s) {
 }
 
 const posts = loadPosts()
-const staticPaths = ['/', '/about', '/blog', '/favorites', '/photos', '/files']
+// /files(자료실)은 관리자 전용이라 sitemap에서 제외(검색엔진 노출 방지)
+const staticPaths = ['/', '/about', '/blog', '/favorites', '/photos']
 
 // ── sitemap.xml ──────────────────────────────
 const urls = [

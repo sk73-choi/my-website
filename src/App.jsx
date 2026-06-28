@@ -8,6 +8,8 @@ import Favorites from './pages/Favorites'
 import Photos from './pages/Photos'
 import About from './pages/About'
 import NotFound from './pages/NotFound'
+import RequireAdmin from './components/RequireAdmin'
+import { AuthProvider } from './admin/AuthContext'
 
 // 무거운 화면은 분할 로딩(초기 번들 축소): 글 상세(마크다운/하이라이트),
 // 자료실(PDF 뷰어), 관리자(에디터/업로드)
@@ -25,23 +27,34 @@ function Fallback() {
 
 // 전체 라우팅 구조. 공개 페이지는 Layout(Navbar/Footer)으로 감싸고,
 // /admin 은 별도(공개 네비게이션 없이 자체 인증)로 분리.
+// AuthProvider 를 앱 전체로 올려, 공개 페이지(Navbar/자료실 게이트)도 로그인 상태를 공유.
 function App() {
   return (
-    <Suspense fallback={<Fallback />}>
-      <Routes>
-        <Route path="/admin/*" element={<AdminApp />} />
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="blog" element={<Blog />} />
-          <Route path="blog/:slug" element={<BlogPost />} />
-          <Route path="files" element={<Files />} />
-          <Route path="favorites" element={<Favorites />} />
-          <Route path="photos" element={<Photos />} />
-          <Route path="about" element={<About />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </Suspense>
+    <AuthProvider>
+      <Suspense fallback={<Fallback />}>
+        <Routes>
+          <Route path="/admin/*" element={<AdminApp />} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="blog" element={<Blog />} />
+            <Route path="blog/:slug" element={<BlogPost />} />
+            {/* 자료실은 관리자(로그인) 전용 */}
+            <Route
+              path="files"
+              element={
+                <RequireAdmin>
+                  <Files />
+                </RequireAdmin>
+              }
+            />
+            <Route path="favorites" element={<Favorites />} />
+            <Route path="photos" element={<Photos />} />
+            <Route path="about" element={<About />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </Suspense>
+    </AuthProvider>
   )
 }
 

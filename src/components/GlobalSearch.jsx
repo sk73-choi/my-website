@@ -5,6 +5,7 @@ import { Search, X, FileText, FolderOpen, Star, ExternalLink } from 'lucide-reac
 import { getSortedPosts } from '../data/posts'
 import { getSortedFiles } from '../data/files'
 import { links as bookmarkLinks, hostOf, faviconOf } from '../data/bookmarks'
+import { useAuth } from '../admin/AuthContext'
 
 const LIMIT = 6
 
@@ -13,6 +14,7 @@ function GlobalSearch({ open, onClose }) {
   const navigate = useNavigate()
   const inputRef = useRef(null)
   const [query, setQuery] = useState('')
+  const { user } = useAuth() // 자료실은 관리자 전용 → 비로그인 시 검색결과에서 제외
 
   // 열릴 때 입력 초기화 + 포커스
   useEffect(() => {
@@ -47,7 +49,7 @@ function GlobalSearch({ open, onClose }) {
   )
   const files = useMemo(
     () =>
-      !q
+      !q || !user
         ? []
         : getSortedFiles()
             .filter(
@@ -56,7 +58,7 @@ function GlobalSearch({ open, onClose }) {
                 (f.desc ?? '').toLowerCase().includes(q),
             )
             .slice(0, LIMIT),
-    [q],
+    [q, user],
   )
   const marks = useMemo(
     () =>

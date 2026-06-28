@@ -4,15 +4,16 @@ import { motion } from 'framer-motion'
 import { Menu, X, Search } from 'lucide-react'
 import GlobalSearch from './GlobalSearch'
 import ThemeToggle from './ThemeToggle'
+import { useAuth } from '../admin/AuthContext'
 
-// 네비게이션 메뉴 정의
+// 네비게이션 메뉴 정의 (adminOnly=관리자 로그인 시에만 노출)
 const navItems = [
   { to: '/', label: '홈', end: true },
   { to: '/about', label: '소개' },
   { to: '/blog', label: '블로그' },
   { to: '/favorites', label: '즐겨찾기' },
   { to: '/photos', label: '사진' },
-  { to: '/files', label: '자료실' },
+  { to: '/files', label: '자료실', adminOnly: true },
 ]
 
 // 활성 링크 스타일을 NavLink className 함수로 처리
@@ -28,6 +29,10 @@ function linkClass({ isActive }) {
 function Navbar() {
   const [open, setOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const { user } = useAuth()
+
+  // 관리자 전용 메뉴(자료실)는 로그인 시에만 노출
+  const items = navItems.filter((i) => !i.adminOnly || user)
 
   // Ctrl/⌘ + K 로 전역 검색 열기
   useEffect(() => {
@@ -57,7 +62,7 @@ function Navbar() {
 
         {/* 데스크탑 메뉴 */}
         <div className="hidden items-center gap-1 sm:flex">
-          {navItems.map((item) => (
+          {items.map((item) => (
             <NavLink key={item.to} to={item.to} end={item.end} className={linkClass}>
               {item.label}
             </NavLink>
@@ -103,7 +108,7 @@ function Navbar() {
           className="glass mx-auto mt-2 max-w-5xl rounded-2xl px-3 py-2 sm:hidden"
         >
           <div className="flex flex-col gap-1">
-            {navItems.map((item) => (
+            {items.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}

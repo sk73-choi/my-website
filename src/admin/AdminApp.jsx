@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { LoaderCircle } from 'lucide-react'
-import { AuthProvider, useAuth } from './AuthContext'
+import { useAuth } from './AuthContext'
 import AdminLogin from './AdminLogin'
 import AdminDashboard from './AdminDashboard'
 import AdminBlog from './AdminBlog'
@@ -75,11 +75,8 @@ function Gate() {
 }
 
 function AdminApp() {
-  return (
-    <AuthProvider>
-      <Gate />
-    </AuthProvider>
-  )
+  // AuthProvider 는 App 최상위에서 제공됨(공개 페이지와 로그인 상태 공유)
+  return <Gate />
 }
 
 export default AdminApp

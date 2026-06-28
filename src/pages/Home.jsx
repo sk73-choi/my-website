@@ -8,6 +8,7 @@ import { PageWrapper, Reveal } from '../components/motion'
 import { fadeUp, stagger } from '../lib/variants'
 import Seo from '../components/Seo'
 import { SITE } from '../lib/site'
+import { useAuth } from '../admin/AuthContext'
 
 // 홈에서 사용할 기술 스택 뱃지
 const techStack = ['React', 'Vite', 'Tailwind CSS', 'JavaScript', 'GitHub Pages']
@@ -39,6 +40,7 @@ function SectionHeader({ title, to, linkLabel }) {
 }
 
 function Home() {
+  const { user } = useAuth() // 자료실 관련 노출은 관리자 로그인 시에만
   const recentPosts = getSortedPosts().slice(0, 3)
   const recentFiles = getSortedFiles().slice(0, 3)
 
@@ -180,7 +182,8 @@ function Home() {
         )}
       </Reveal>
 
-      {/* 최근 자료 */}
+      {/* 최근 자료 (자료실은 관리자 전용 → 로그인 시에만 노출) */}
+      {user && (
       <Reveal>
         <SectionHeader title="최근 자료" to="/files" linkLabel="자료실" />
         {recentFiles.length === 0 ? (
@@ -221,14 +224,17 @@ function Home() {
           </div>
         )}
       </Reveal>
+      )}
 
-      {/* 둘러보기 CTA */}
+      {/* 둘러보기 CTA (자료실 카드는 관리자 로그인 시에만) */}
       <Reveal>
         <div className="grid gap-5 sm:grid-cols-2">
           {[
             { to: '/blog', icon: FileText, title: '블로그', desc: '배운 것들과 생각을 글로 기록합니다.' },
-            { to: '/files', icon: FolderOpen, title: '자료실', desc: 'PDF, 문서, 슬라이드 등 자료를 모아둔 공간입니다.' },
-          ].map(({ to, icon: Icon, title, desc }) => (
+            { to: '/files', icon: FolderOpen, title: '자료실', desc: 'PDF, 문서, 슬라이드 등 자료를 모아둔 공간입니다.', adminOnly: true },
+          ]
+            .filter((c) => !c.adminOnly || user)
+            .map(({ to, icon: Icon, title, desc }) => (
             <motion.div key={to} whileHover={{ y: -6 }} transition={{ type: 'spring', stiffness: 300 }}>
               <Link to={to} className="glass group block rounded-2xl p-6">
                 <span className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-fuchsia-600 to-indigo-600 text-white shadow-md">
