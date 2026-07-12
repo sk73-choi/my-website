@@ -8,7 +8,7 @@ import Favorites from './pages/Favorites'
 import Photos from './pages/Photos'
 import About from './pages/About'
 import NotFound from './pages/NotFound'
-import RequireAdmin from './components/RequireAdmin'
+import RequireAccessCode from './components/RequireAccessCode'
 import { AuthProvider } from './admin/AuthContext'
 
 // 무거운 화면은 분할 로딩(초기 번들 축소): 글 상세(마크다운/하이라이트),
@@ -38,13 +38,13 @@ function App() {
             <Route index element={<Home />} />
             <Route path="blog" element={<Blog />} />
             <Route path="blog/:slug" element={<BlogPost />} />
-            {/* 자료실은 관리자(로그인) 전용 */}
+            {/* 자료실은 접근 코드 입력 후 열람(민감 정보 아님, 심플한 문턱) */}
             <Route
               path="files"
               element={
-                <RequireAdmin>
+                <RequireAccessCode>
                   <Files />
-                </RequireAdmin>
+                </RequireAccessCode>
               }
             />
             <Route path="favorites" element={<Favorites />} />

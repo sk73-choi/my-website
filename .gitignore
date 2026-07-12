@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# 자료실 접근 코드 (커밋 금지, 로컬에서 직접 값 입력)
+.env
+
 # 빌드 시 자동 생성(prebuild/predev)
 public/sitemap.xml
 public/rss.xml

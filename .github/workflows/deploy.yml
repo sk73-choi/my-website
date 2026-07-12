@@ -28,6 +28,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          VITE_FILES_ACCESS_CODE: ${{ secrets.VITE_FILES_ACCESS_CODE }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
