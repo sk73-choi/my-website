@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git & GitHub 버전 관리 가이드 — Claude Code + Windows</title>
+<style>
+  :root {
+    --bg: #f5f7fa;
+    --surface: #ffffff;
+    --surface2: #eef1f6;
+    --border: #d6dce8;
+    --accent: #2563eb;
+    --accent2: #7c3aed;
+    --green: #059669;
+    --yellow: #d97706;
+    --red: #dc2626;
+    --text: #1e2330;
+    --text-muted: #5a6680;
+    --code-bg: #f0f3f8;
+    --font-mono: 'Consolas', 'Cascadia Code', 'SF Mono', monospace;
+    --font-sans: 'Pretendard', 'Noto Sans KR', 'Apple SD Gothic Neo', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  /* ── Layout ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 28px 0 40px;
+  }
+
+  .sidebar-logo {
+    padding: 0 24px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .sidebar-logo .tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .sidebar-logo h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .nav-section { margin-bottom: 4px; }
+  .nav-section-label {
+    padding: 6px 24px 2px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color .15s, background .15s;
+    border-left: 2px solid transparent;
+  }
+  .nav-link:hover { color: var(--text); background: var(--surface2); }
+  .nav-link.active { color: var(--accent); border-left-color: var(--accent); background: rgba(37,99,235,.07); }
+  .nav-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; border-radius: 4px;
+    background: var(--surface2); font-size: 10px; font-weight: 700;
+    color: var(--text-muted); flex-shrink: 0;
+  }
+
+  /* ── Main ── */
+  main {
+    padding: 0 56px 80px;
+    max-width: 900px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 56px;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 36px; font-weight: 800; line-height: 1.2;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+  .hero p { color: var(--text-muted); font-size: 16px; max-width: 580px; }
+
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+  .badge {
+    padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    border: 1px solid;
+  }
+  .badge-blue { color: var(--accent); border-color: var(--accent); background: rgba(37,99,235,.08); }
+  .badge-purple { color: var(--accent2); border-color: var(--accent2); background: rgba(124,58,237,.08); }
+  .badge-green { color: var(--green); border-color: var(--green); background: rgba(5,150,105,.08); }
+
+  /* ── Section ── */
+  .section {
+    margin-bottom: 60px;
+    scroll-margin-top: 32px;
+  }
+
+  .section-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    font-size: 13px; font-weight: 800; color: #fff; flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 22px; font-weight: 700; color: var(--text);
+  }
+  .section-header .sub {
+    font-size: 13px; color: var(--text-muted); margin-top: 2px;
+  }
+
+  /* ── Step cards ── */
+  .steps { display: flex; flex-direction: column; gap: 16px; }
+
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .step-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .step-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0;
+  }
+  .step-title { font-size: 14px; font-weight: 600; color: var(--text); }
+  .step-body { padding: 16px 18px; }
+  .step-body p { color: var(--text-muted); font-size: 14px; margin-bottom: 12px; }
+  .step-body p:last-child { margin-bottom: 0; }
+
+  /* ── Code blocks ── */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 12px 0;
+  }
+  .code-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 14px;
+    background: rgba(0,0,0,.03);
+    border-bottom: 1px solid var(--border);
+  }
+  .code-lang {
+    font-size: 11px; font-weight: 600; letter-spacing: .05em;
+    text-transform: uppercase; color: var(--text-muted);
+  }
+  .copy-btn {
+    font-size: 11px; font-weight: 600; color: var(--text-muted);
+    background: none; border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 4px; cursor: pointer;
+    transition: color .15s, border-color .15s;
+  }
+  .copy-btn:hover { color: var(--text); border-color: var(--text-muted); }
+  pre {
+    padding: 14px 16px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+    color: var(--text);
+  }
+  .c-cmd { color: #1d4ed8; }   /* command */
+  .c-arg { color: #166534; }   /* argument / path */
+  .c-str { color: #92400e; }   /* string */
+  .c-cmt { color: #94a3b8; font-style: italic; } /* comment */
+  .c-flag { color: #6d28d9; }  /* flag */
+
+  /* ── Info boxes ── */
+  .info-box {
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    display: flex; gap: 12px;
+    font-size: 13.5px;
+  }
+  .info-box .icon { font-size: 16px; flex-shrink: 0; line-height: 1.6; }
+  .info-box p { color: var(--text-muted); line-height: 1.65; }
+  .info-box strong { color: var(--text); }
+  .box-tip { background: rgba(5,150,105,.06); border: 1px solid rgba(5,150,105,.25); }
+  .box-warn { background: rgba(217,119,6,.06); border: 1px solid rgba(217,119,6,.3); }
+  .box-info { background: rgba(37,99,235,.06); border: 1px solid rgba(37,99,235,.2); }
+
+  /* ── Diagram ── */
+  .diagram {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 16px 0;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: var(--text-muted);
+    overflow-x: auto;
+  }
+  .d-hi { color: var(--accent); font-weight: 700; }
+  .d-green { color: #059669; }
+  .d-yellow { color: #b45309; }
+  .d-purple { color: #6d28d9; }
+
+  /* ── Workflow table ── */
+  .flow-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+  .flow-table th {
+    text-align: left; padding: 10px 14px;
+    background: var(--surface2); color: var(--text-muted);
+    font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  .flow-table td {
+    padding: 10px 14px; border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .flow-table tr:last-child td { border-bottom: none; }
+  .flow-table code {
+    background: var(--code-bg); padding: 2px 6px; border-radius: 4px;
+    font-family: var(--font-mono); font-size: 12px; color: var(--accent2);
+  }
+
+  /* ── Checklist ── */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 7px 0; border-bottom: 1px solid var(--border);
+    font-size: 14px; color: var(--text-muted);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist .chk {
+    width: 18px; height: 18px; border-radius: 4px;
+    border: 1.5px solid var(--border); flex-shrink: 0; margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--green);
+  }
+  .checklist .chk.done { background: rgba(52,211,153,.1); border-color: var(--green); }
+
+  /* ── Branch diagram ── */
+  .branch-vis {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 2;
+    margin: 14px 0;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <span class="tag">Step-by-step Guide</span>
+      <h2>Git & GitHub<br>버전 관리</h2>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">설치 & 초기 설정</div>
+      <a href="#s1" class="nav-link active"><span class="nav-num">1</span>Git 설치</a>
+      <a href="#s2" class="nav-link"><span class="nav-num">2</span>초기 설정</a>
+      <a href="#s3" class="nav-link"><span class="nav-num">3</span>GitHub 설정</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">프로젝트 연결</div>
+      <a href="#s4" class="nav-link"><span class="nav-num">4</span>로컬 저장소 초기화</a>
+      <a href="#s5" class="nav-link"><span class="nav-num">5</span>.gitignore 설정</a>
+      <a href="#s6" class="nav-link"><span class="nav-num">6</span>GitHub 원격 연결</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Claude Code 연동</div>
+      <a href="#s7" class="nav-link"><span class="nav-num">7</span>CLAUDE.md 설정</a>
+      <a href="#s8" class="nav-link"><span class="nav-num">8</span>일상 작업 흐름</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">브랜치 & 협업</div>
+      <a href="#s9" class="nav-link"><span class="nav-num">9</span>브랜치 전략</a>
+      <a href="#s10" class="nav-link"><span class="nav-num">10</span>자주 쓰는 명령어</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">운영</div>
+      <a href="#s11" class="nav-link"><span class="nav-num">11</span>문제 해결</a>
+      <a href="#s12" class="nav-link"><span class="nav-num">12</span>권장 운영 루틴</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">
+        <span>🗂</span> Claude Code Project
+      </div>
+      <h1>Git & GitHub<br>버전 관리 가이드</h1>
+      <p>Windows 환경에서 Claude Code로 진행 중인 프로젝트를 Git으로 관리하고 GitHub에 백업·공유하는 완전 가이드입니다.</p>
+      <div class="badge-row">
+        <span class="badge badge-blue">Windows 11/10</span>
+        <span class="badge badge-purple">Claude Code CLI</span>
+        <span class="badge badge-green">GitHub Free</span>
+      </div>
+    </div>
+
+    <!-- ── SECTION 1 ── -->
+    <section class="section" id="s1">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div>
+          <h2>Git 설치</h2>
+          <div class="sub">Git for Windows 다운로드 및 설치</div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">Git for Windows 다운로드</div></div>
+          <div class="step-body">
+            <p>공식 사이트에서 최신 버전을 다운로드합니다.</p>
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">URL</span></div>
+              <pre>https://git-scm.com/download/win</pre>
+            </div>
+            <div class="info-box box-info">
+              <span class="icon">💡</span>
+              <p><strong>64-bit Git for Windows Setup</strong>을 선택하세요. Standalone Installer가 가장 무난합니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">설치 옵션 선택 (중요)</div></div>
+          <div class="step-body">
+            <p>설치 중 아래 항목들을 반드시 확인하세요:</p>
+            <div class="flow-table" style="border:1px solid var(--border); border-radius:8px; overflow:hidden; margin:12px 0;">
+              <table class="flow-table">
+                <thead><tr><th>설치 화면</th><th>권장 선택</th></tr></thead>
+                <tbody>
+                  <tr><td>Default editor</td><td><code>Visual Studio Code</code> (또는 선호 에디터)</td></tr>
+                  <tr><td>Initial branch name</td><td><code>main</code> 선택</td></tr>
+                  <tr><td>PATH environment</td><td><strong>Git from the command line and also from 3rd-party software</strong></td></tr>
+                  <tr><td>Line ending</td><td><code>Checkout Windows-style, commit Unix-style</code></td></tr>
+                  <tr><td>Terminal emulator</td><td><code>MinTTY</code> (기본값)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">설치 확인</div></div>
+          <div class="step-body">
+            <p>PowerShell 또는 CMD를 새로 열고 버전을 확인합니다.</p>
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmd">git</span> <span class="c-arg">--version</span>
+<span class="c-cmt"># 출력 예: git version 2.45.2.windows.1</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 2 ── -->
+    <section class="section" id="s2">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div>
+          <h2>Git 초기 설정</h2>
+          <div class="sub">사용자 정보 및 전역 설정</div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">사용자 이름 & 이메일 등록</div></div>
+          <div class="step-body">
+            <p>커밋에 기록될 이름과 이메일을 설정합니다. GitHub 계정과 동일한 이메일을 사용하면 커밋 히스토리가 GitHub 프로필에 연결됩니다.</p>
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-arg">--global</span> user.name <span class="c-str">"홍길동"</span>
+<span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-arg">--global</span> user.email <span class="c-str">"your@email.com"</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">기본 브랜치명 설정</div></div>
+          <div class="step-body">
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-arg">--global</span> init.defaultBranch <span class="c-str">main</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">Windows 줄바꿈 처리</div></div>
+          <div class="step-body">
+            <p>Windows는 CRLF, Linux/Mac은 LF를 사용합니다. 아래 설정으로 충돌을 방지합니다.</p>
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-arg">--global</span> core.autocrlf <span class="c-str">true</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">설정 확인</div></div>
+          <div class="step-body">
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-arg">--list --global</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 3 ── -->
+    <section class="section" id="s3">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div>
+          <h2>GitHub 계정 & 인증 설정</h2>
+          <div class="sub">SSH 키 또는 Personal Access Token(PAT) 설정</div>
+        </div>
+      </div>
+
+      <div class="info-box box-info" style="margin-bottom:16px;">
+        <span class="icon">ℹ️</span>
+        <p>GitHub은 비밀번호 직접 입력을 지원하지 않습니다. <strong>SSH 키 방식</strong>(권장)이나 <strong>PAT(Personal Access Token)</strong> 방식 중 하나를 사용해야 합니다.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">방법 A: SSH 키 생성 (권장)</div></div>
+          <div class="step-body">
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmt"># SSH 키 생성 (Ed25519 알고리즘)</span>
+<span class="c-cmd">ssh-keygen</span> <span class="c-flag">-t</span> ed25519 <span class="c-flag">-C</span> <span class="c-str">"your@email.com"</span>
+<span class="c-cmt"># 저장 위치: Enter (기본값 사용)</span>
+<span class="c-cmt"># passphrase: 빈칸 Enter (간편) 또는 비밀번호 설정</span>
+
+<span class="c-cmt"># 공개키 내용 확인 (복사용)</span>
+<span class="c-cmd">cat</span> <span class="c-arg">~/.ssh/id_ed25519.pub</span></pre>
+            </div>
+            <p>출력된 공개키 전체(ssh-ed25519 ... 까지)를 복사한 후:</p>
+            <p>GitHub → Settings → SSH and GPG keys → <strong>New SSH key</strong> → 붙여넣기</p>
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell — 연결 테스트</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmd">ssh</span> <span class="c-flag">-T</span> git@github.com
+<span class="c-cmt"># 성공: Hi username! You've successfully authenticated...</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">방법 B: PAT (Personal Access Token)</div></div>
+          <div class="step-body">
+            <p>GitHub → Settings → Developer settings → Personal access tokens → <strong>Tokens (classic)</strong> → Generate new token</p>
+            <p>권한(Scope): <strong>repo</strong> 체크 → 생성 후 토큰 복사 (다시 볼 수 없음)</p>
+            <div class="info-box box-warn">
+              <span class="icon">⚠️</span>
+              <p>PAT를 사용할 경우 <code>git push</code> 시 비밀번호 입력란에 PAT를 입력합니다. Windows 자격 증명 관리자에 저장되어 이후엔 자동 입력됩니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 4 ── -->
+    <section class="section" id="s4">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div>
+          <h2>로컬 저장소 초기화</h2>
+          <div class="sub">기존 프로젝트 폴더를 Git 저장소로 전환</div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">프로젝트 폴더로 이동</div></div>
+          <div class="step-body">
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmt"># GD 프로젝트 예시</span>
+<span class="c-cmd">cd</span> <span class="c-arg">C:\claude\projects\GD</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">Git 저장소 초기화</div></div>
+          <div class="step-body">
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmd">git</span> <span class="c-arg">init</span>
+<span class="c-cmt"># 출력: Initialized empty Git repository in C:/claude/projects/GD/.git/</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">현재 상태 확인</div></div>
+          <div class="step-body">
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmd">git</span> <span class="c-arg">status</span>
+<span class="c-cmt"># 빨간색으로 untracked 파일들이 나열됨</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 5 ── -->
+    <section class="section" id="s5">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <div>
+          <h2>.gitignore 설정</h2>
+          <div class="sub">버전 관리에서 제외할 파일 지정 (중요!)</div>
+        </div>
+      </div>
+
+      <div class="info-box box-warn" style="margin-bottom:16px;">
+        <span class="icon">⚠️</span>
+        <p>GD RDM 프로젝트 특성상 <strong>대용량 CSV 데이터 파일, 민감한 설정값, 가상환경 폴더</strong>는 반드시 제외해야 합니다.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-header"><div class="step-dot"></div><div class="step-title">.gitignore 파일 생성</div></div>
+        <div class="step-body">
+          <p>프로젝트 루트에 <code>.gitignore</code> 파일을 생성하고 아래 내용을 작성합니다:</p>
+          <div class="code-block">
+            <div class="code-bar"><span class="code-lang">.gitignore</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="c-cmt"># === Python ===</span>
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+env/
+
+<span class="c-cmt"># === 데이터 파일 (대용량 / 민감 데이터) ===</span>
+data/raw/
+data/input/
+*.csv
+*.xlsx
+*.parquet
+*.feather
+
+<span class="c-cmt"># === 로그 & 임시 파일 ===</span>
+logs/
+*.log
+*.tmp
+output/
+
+<span class="c-cmt"># === 설정 / 인증 정보 ===</span>
+.env
+config/secrets.py
+config/local_settings.py
+*.key
+*.pem
+
+<span class="c-cmt"># === OS 파일 ===</span>
+.DS_Store
+Thumbs.db
+desktop.ini
+
+<span class="c-cmt"># === IDE ===</span>
+.vscode/settings.json
+.idea/
+
+<span class="c-cmt"># === Claude Code 관련 ===</span>
+<span class="c-cmt"># CLAUDE.md는 포함 (컨텍스트 공유용)</span>
+.claude/cache/</pre>
+          </div>
+          <div class="info-box box-tip">
+            <span class="icon">✅</span>
+            <p><strong>CLAUDE.md는 커밋에 포함</strong>하세요. 프로젝트 컨텍스트를 팀원이나 미래의 자신과 공유하는 핵심 파일입니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 6 ── -->
+    <section class="section" id="s6">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <div>
+          <h2>GitHub 원격 저장소 연결</h2>
+          <div class="sub">첫 커밋 & push</div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">GitHub에서 새 저장소 생성</div></div>
+          <div class="step-body">
+            <p>github.com → New repository</p>
+            <div class="flow-table" style="border:1px solid var(--border); border-radius:8px; overflow:hidden; margin:12px 0;">
+              <table class="flow-table">
+                <thead><tr><th>항목</th><th>설정값</th></tr></thead>
+                <tbody>
+                  <tr><td>Repository name</td><td><code>GD-RDM-Analysis</code> (원하는 이름)</td></tr>
+                  <tr><td>Visibility</td><td><strong>Private</strong> (업무 프로젝트는 반드시)</td></tr>
+                  <tr><td>Initialize README</td><td>❌ 체크 해제 (로컬에서 push 예정)</td></tr>
+                  <tr><td>.gitignore, license</td><td>❌ 체크 해제</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">원격 저장소 연결 & 첫 Push</div></div>
+          <div class="step-body">
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmt"># 모든 파일 스테이징</span>
+<span class="c-cmd">git</span> <span class="c-arg">add</span> <span class="c-flag">.</span>
+
+<span class="c-cmt"># 첫 커밋</span>
+<span class="c-cmd">git</span> <span class="c-arg">commit</span> <span class="c-flag">-m</span> <span class="c-str">"feat: 프로젝트 초기 설정"</span>
+
+<span class="c-cmt"># SSH 방식 (권장)</span>
+<span class="c-cmd">git</span> <span class="c-arg">remote add</span> origin git@github.com:<span class="c-str">username/GD-RDM-Analysis.git</span>
+
+<span class="c-cmt"># 또는 HTTPS 방식 (PAT 사용 시)</span>
+<span class="c-cmd">git</span> <span class="c-arg">remote add</span> origin https://github.com/<span class="c-str">username/GD-RDM-Analysis.git</span>
+
+<span class="c-cmt"># 첫 push (upstream 설정 포함)</span>
+<span class="c-cmd">git</span> <span class="c-arg">push</span> <span class="c-flag">-u</span> origin main</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 7 ── -->
+    <section class="section" id="s7">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <div>
+          <h2>CLAUDE.md와 Git 연동</h2>
+          <div class="sub">Claude Code 컨텍스트를 버전 관리에 포함</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header"><div class="step-dot"></div><div class="step-title">CLAUDE.md에 Git 정보 포함 권장 구조</div></div>
+        <div class="step-body">
+          <p>CLAUDE.md에 현재 브랜치 전략과 커밋 규칙을 명시해두면, Claude Code가 작업 맥락을 더 잘 이해합니다.</p>
+          <div class="code-block">
+            <div class="code-bar"><span class="code-lang">CLAUDE.md (추가 섹션)</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="c-cmt">## Git 버전 관리</span>
+
+<span class="c-arg">### 브랜치 구조</span>
+- main: 안정 버전 (직접 커밋 금지)
+- develop: 개발 통합 브랜치
+- feature/xxx: 기능별 작업 브랜치
+
+<span class="c-arg">### 커밋 메시지 규칙</span>
+feat: 새 기능
+fix: 버그 수정
+refactor: 코드 개선
+docs: 문서 수정
+chore: 설정/빌드 변경
+
+<span class="c-arg">### 중요: 커밋 제외 대상</span>
+- data/ 폴더 (대용량 CSV)
+- .env (API 키 등)
+- 삼성 내부 설정값</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 8 ── -->
+    <section class="section" id="s8">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <div>
+          <h2>일상 작업 흐름</h2>
+          <div class="sub">Claude Code 세션과 Git 커밋의 통합 루틴</div>
+        </div>
+      </div>
+
+      <div class="diagram">
+<span class="d-hi">작업 시작</span>
+  │
+  ├── <span class="d-green">git pull origin main</span>         ← 최신 상태 동기화
+  │
+  ├── <span class="d-yellow">claude code 세션 시작</span>
+  │     └── 기능 개발 / 분석 코드 작성
+  │
+  ├── <span class="d-green">git status</span>                   ← 변경 파일 확인
+  ├── <span class="d-green">git diff</span>                     ← 내용 검토
+  ├── <span class="d-green">git add [파일명]</span>              ← 선택적 스테이징
+  ├── <span class="d-green">git commit -m "feat: ..."</span>    ← 의미 단위 커밋
+  │
+  └── <span class="d-purple">git push origin [브랜치]</span>      ← GitHub 백업
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">Claude Code 세션과 Git 연계 예시</div></div>
+          <div class="step-body">
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell — 하루 작업 예시</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmt"># 1. 작업 시작 전 최신 상태로</span>
+<span class="c-cmd">git</span> <span class="c-arg">pull</span>
+
+<span class="c-cmt"># 2. 기능 브랜치 생성 (큰 작업일 때)</span>
+<span class="c-cmd">git</span> <span class="c-arg">checkout</span> <span class="c-flag">-b</span> feature/add-failure-rate-analysis
+
+<span class="c-cmt"># 3. Claude Code 작업 후 — 변경 내용 확인</span>
+<span class="c-cmd">git</span> <span class="c-arg">status</span>
+<span class="c-cmd">git</span> <span class="c-arg">diff analysis/rdm_analysis.py</span>
+
+<span class="c-cmt"># 4. 특정 파일만 스테이징</span>
+<span class="c-cmd">git</span> <span class="c-arg">add</span> analysis/rdm_analysis.py
+<span class="c-cmd">git</span> <span class="c-arg">add</span> dashboard/app.py
+
+<span class="c-cmt"># 5. 커밋</span>
+<span class="c-cmd">git</span> <span class="c-arg">commit</span> <span class="c-flag">-m</span> <span class="c-str">"feat: 불량률 추이 분석 함수 추가"</span>
+
+<span class="c-cmt"># 6. Push</span>
+<span class="c-cmd">git</span> <span class="c-arg">push</span> origin feature/add-failure-rate-analysis</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">좋은 커밋 메시지 작성법</div></div>
+          <div class="step-body">
+            <div class="flow-table" style="border:1px solid var(--border); border-radius:8px; overflow:hidden; margin:12px 0;">
+              <table class="flow-table">
+                <thead><tr><th>타입</th><th>의미</th><th>예시</th></tr></thead>
+                <tbody>
+                  <tr><td><code>feat</code></td><td>새 기능 추가</td><td><code>feat: CSV 배치 처리 기능 추가</code></td></tr>
+                  <tr><td><code>fix</code></td><td>버그 수정</td><td><code>fix: 날짜 파싱 오류 수정</code></td></tr>
+                  <tr><td><code>refactor</code></td><td>코드 개선</td><td><code>refactor: 분석 함수 모듈화</code></td></tr>
+                  <tr><td><code>docs</code></td><td>문서 수정</td><td><code>docs: CLAUDE.md 스키마 정보 업데이트</code></td></tr>
+                  <tr><td><code>chore</code></td><td>설정 변경</td><td><code>chore: .gitignore 패턴 추가</code></td></tr>
+                  <tr><td><code>perf</code></td><td>성능 개선</td><td><code>perf: 대용량 CSV 읽기 최적화</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 9 ── -->
+    <section class="section" id="s9">
+      <div class="section-header">
+        <div class="section-num">9</div>
+        <div>
+          <h2>브랜치 전략</h2>
+          <div class="sub">개인 프로젝트에 맞는 단순화된 Git Flow</div>
+        </div>
+      </div>
+
+      <div class="branch-vis">
+<span style="color:#6d28d9;">main</span>     ●─────────────────────────────────●  (안정 버전)
+              ╲                           ╱
+<span style="color:#b45309;">develop</span>        ●──────●──────●──────●     (통합 개발)
+                      ╲          ╱
+<span style="color:#059669;">feature/xxx</span>            ●──────●            (기능 작업)
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">브랜치 기본 명령어</div></div>
+          <div class="step-body">
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">PowerShell</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="c-cmt"># 브랜치 목록 확인</span>
+<span class="c-cmd">git</span> <span class="c-arg">branch</span> <span class="c-flag">-a</span>
+
+<span class="c-cmt"># 새 브랜치 생성 & 이동</span>
+<span class="c-cmd">git</span> <span class="c-arg">checkout</span> <span class="c-flag">-b</span> feature/dashboard-redesign
+
+<span class="c-cmt"># 브랜치 이동</span>
+<span class="c-cmd">git</span> <span class="c-arg">checkout</span> develop
+
+<span class="c-cmt"># feature → develop 병합</span>
+<span class="c-cmd">git</span> <span class="c-arg">checkout</span> develop
+<span class="c-cmd">git</span> <span class="c-arg">merge</span> <span class="c-flag">--no-ff</span> feature/dashboard-redesign
+<span class="c-cmd">git</span> <span class="c-arg">push</span> origin develop
+
+<span class="c-cmt"># 완료된 feature 브랜치 삭제</span>
+<span class="c-cmd">git</span> <span class="c-arg">branch</span> <span class="c-flag">-d</span> feature/dashboard-redesign</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot"></div><div class="step-title">개인 프로젝트 단순 전략 (추천)</div></div>
+          <div class="step-body">
+            <div class="info-box box-tip">
+              <span class="icon">💡</span>
+              <p>혼자 작업한다면 <strong>main 하나</strong>만 써도 충분합니다. 단, 실험적인 변경은 <code>feature/xxx</code> 브랜치를 만들어 분리하세요. 망해도 main은 안전합니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 10 ── -->
+    <section class="section" id="s10">
+      <div class="section-header">
+        <div class="section-num">10</div>
+        <div>
+          <h2>자주 쓰는 Git 명령어</h2>
+          <div class="sub">일상 작업에서 95%를 커버하는 명령어 모음</div>
+        </div>
+      </div>
+
+      <div class="flow-table" style="border:1px solid var(--border); border-radius:8px; overflow:hidden;">
+        <table class="flow-table">
+          <thead><tr><th>명령어</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td><code>git status</code></td><td>변경된 파일 목록 확인</td></tr>
+            <tr><td><code>git diff</code></td><td>변경 내용 상세 비교</td></tr>
+            <tr><td><code>git add .</code></td><td>모든 변경 스테이징</td></tr>
+            <tr><td><code>git add [파일]</code></td><td>특정 파일만 스테이징</td></tr>
+            <tr><td><code>git commit -m "메시지"</code></td><td>커밋 생성</td></tr>
+            <tr><td><code>git push</code></td><td>원격 저장소에 업로드</td></tr>
+            <tr><td><code>git pull</code></td><td>원격 변경사항 내려받기</td></tr>
+            <tr><td><code>git log --oneline</code></td><td>커밋 히스토리 간략히</td></tr>
+            <tr><td><code>git log --oneline --graph</code></td><td>브랜치 그래프 포함 히스토리</td></tr>
+            <tr><td><code>git stash</code></td><td>작업 중인 내용 임시 저장</td></tr>
+            <tr><td><code>git stash pop</code></td><td>임시 저장 내용 복원</td></tr>
+            <tr><td><code>git reset HEAD [파일]</code></td><td>스테이징 취소</td></tr>
+            <tr><td><code>git checkout -- [파일]</code></td><td>파일 변경 취소 (주의!)</td></tr>
+            <tr><td><code>git revert [커밋해시]</code></td><td>특정 커밋 안전하게 되돌리기</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── SECTION 11 ── -->
+    <section class="section" id="s11">
+      <div class="section-header">
+        <div class="section-num">11</div>
+        <div>
+          <h2>자주 발생하는 문제 해결</h2>
+          <div class="sub">Windows + GitHub 환경에서 흔히 겪는 오류</div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-header"><div class="step-dot" style="background:var(--red)"></div><div class="step-title">오류: "Please tell me who you are"</div></div>
+          <div class="step-body">
+            <p>사용자 정보가 설정되지 않은 경우입니다.</p>
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">해결</span></div>
+              <pre><span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-arg">--global</span> user.name <span class="c-str">"이름"</span>
+<span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-arg">--global</span> user.email <span class="c-str">"이메일"</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot" style="background:var(--red)"></div><div class="step-title">오류: push rejected / remote contains work</div></div>
+          <div class="step-body">
+            <p>원격 저장소에 로컬에 없는 커밋이 있는 경우입니다.</p>
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">해결</span></div>
+              <pre><span class="c-cmt"># 먼저 pull 후 push</span>
+<span class="c-cmd">git</span> <span class="c-arg">pull</span> <span class="c-flag">--rebase</span> origin main
+<span class="c-cmd">git</span> <span class="c-arg">push</span> origin main</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot" style="background:var(--red)"></div><div class="step-title">오류: CRLF / LF 경고</div></div>
+          <div class="step-body">
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">해결</span></div>
+              <pre><span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-arg">--global</span> core.autocrlf <span class="c-str">true</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot" style="background:var(--red)"></div><div class="step-title">실수로 민감한 파일을 커밋한 경우</div></div>
+          <div class="step-body">
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">해결 — 마지막 커밋에서 파일 제거</span></div>
+              <pre><span class="c-cmt"># 파일을 Git 추적에서만 제거 (로컬 파일 유지)</span>
+<span class="c-cmd">git</span> <span class="c-arg">rm</span> <span class="c-flag">--cached</span> config/secrets.py
+<span class="c-cmt"># .gitignore에 추가 후</span>
+<span class="c-cmd">git</span> <span class="c-arg">commit</span> <span class="c-flag">-m</span> <span class="c-str">"chore: 민감 파일 추적 제거"</span></pre>
+            </div>
+            <div class="info-box box-warn">
+              <span class="icon">⚠️</span>
+              <p>이미 원격에 push 했다면 Git 히스토리에 남습니다. 완전 제거는 <code>git filter-branch</code> 또는 BFG Repo Cleaner를 사용해야 합니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot" style="background:var(--red)"></div><div class="step-title">merge conflict 발생 시</div></div>
+          <div class="step-body">
+            <div class="code-block">
+              <div class="code-bar"><span class="code-lang">해결 절차</span></div>
+              <pre><span class="c-cmt"># 충돌 파일 확인</span>
+<span class="c-cmd">git</span> <span class="c-arg">status</span>
+
+<span class="c-cmt"># 충돌 파일 직접 편집 후 (<<<, ===, >>> 마커 제거)</span>
+<span class="c-cmd">git</span> <span class="c-arg">add</span> [충돌파일]
+<span class="c-cmd">git</span> <span class="c-arg">commit</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 12 ── -->
+    <section class="section" id="s12">
+      <div class="section-header">
+        <div class="section-num">12</div>
+        <div>
+          <h2>권장 운영 루틴</h2>
+          <div class="sub">지속 가능한 버전 관리 습관</div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-header"><div class="step-dot" style="background:var(--green)"></div><div class="step-title">일일 루틴</div></div>
+          <div class="step-body">
+            <ul class="checklist">
+              <li><div class="chk done">✓</div><span>작업 시작 전 <code>git pull</code>로 최신화</span></li>
+              <li><div class="chk done">✓</div><span>Claude Code 세션 끝낼 때 변경사항 커밋</span></li>
+              <li><div class="chk done">✓</div><span>하루 마무리에 <code>git push</code>로 백업</span></li>
+              <li><div class="chk"></div><span>커밋 메시지는 "무엇을" + "왜"를 포함하도록</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot" style="background:var(--yellow)"></div><div class="step-title">주간 루틴</div></div>
+          <div class="step-body">
+            <ul class="checklist">
+              <li><div class="chk"></div><span><code>git log --oneline -20</code>으로 작업 흐름 검토</span></li>
+              <li><div class="chk"></div><span>완료된 feature 브랜치 정리 (삭제)</span></li>
+              <li><div class="chk"></div><span>CLAUDE.md 내용 업데이트 & 커밋</span></li>
+              <li><div class="chk"></div><span>develop → main 안정 버전 병합</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header"><div class="step-dot" style="background:var(--accent2)"></div><div class="step-title">Claude Code와 Git의 황금 조합</div></div>
+          <div class="step-body">
+            <div class="info-box box-tip">
+              <span class="icon">🚀</span>
+              <p><strong>Claude Code 세션 시작 시</strong>: "지난 커밋 이후 변경사항을 git diff로 보여줘. 오늘 작업할 내용은 [X]야" 라고 컨텍스트를 제공하면 Claude가 더 정확하게 이어서 작업할 수 있습니다.</p>
+            </div>
+            <div class="info-box box-info">
+              <span class="icon">💡</span>
+              <p><strong>Claude Code에게 Git 작업 위임 가능</strong>: "변경된 파일들을 적절한 단위로 나눠서 커밋 메시지와 함께 staging해줘" 처럼 요청할 수 있습니다. Claude Code는 터미널 명령어를 직접 실행할 수 있습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied!';
+    setTimeout(() => btn.textContent = 'copy', 1500);
+  });
+}
+
+// Active nav highlight
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
