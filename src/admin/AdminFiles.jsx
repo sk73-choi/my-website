@@ -61,9 +61,11 @@ function AdminFiles() {
     try {
       const { result } = await load()
       setCats(result)
+      return result
     } catch (e) {
       setStatus('error')
       setMessage(e.message)
+      return null
     }
   }
 
@@ -75,6 +77,7 @@ function AdminFiles() {
       setMessage('이미 있는 카테고리입니다.')
       return
     }
+    if (!window.confirm(`'${name}' 카테고리를 추가할까요?`)) return
     setBusy(true)
     setStatus('saving')
     setMessage(null)
@@ -134,6 +137,36 @@ function AdminFiles() {
       await refresh()
       setStatus('success')
       setMessage(`'${f.name}' 삭제 완료. 배포 후 반영됩니다.`)
+    } catch (e) {
+      setStatus('error')
+      setMessage(e.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function deleteCategory(cat) {
+    const warn =
+      cat.files.length > 0
+        ? `'${cat.name}' 카테고리를 삭제할까요?\n안에 있는 자료 ${cat.files.length}개도 함께 삭제되며 되돌릴 수 없습니다.`
+        : `'${cat.name}' 카테고리를 삭제할까요?`
+    if (!window.confirm(warn)) return
+    setBusy(true)
+    setStatus('saving')
+    setMessage(null)
+    try {
+      const items = await ghListDir(token, `${ROOT}/${cat.name}`)
+      for (const it of items) {
+        if (it.type === 'file') {
+          await ghDeleteFile(token, it.path, `자료 카테고리 삭제: ${cat.name}/${it.name}`, it.sha)
+        }
+      }
+      const result = await refresh()
+      if (result && uploadCat === cat.name) {
+        setUploadCat(result[0]?.name ?? '')
+      }
+      setStatus('success')
+      setMessage(`'${cat.name}' 카테고리를 삭제했습니다.`)
     } catch (e) {
       setStatus('error')
       setMessage(e.message)
@@ -236,10 +269,20 @@ function AdminFiles() {
       {/* 카테고리별 자료 */}
       {cats.map((cat) => (
         <section key={cat.name} className="mb-5">
-          <h2 className="mb-2 font-semibold text-gray-900 dark:text-white">
-            {cat.name}{' '}
-            <span className="text-xs font-normal text-gray-400">({cat.files.length})</span>
-          </h2>
+          <div className="mb-2 flex items-center gap-2">
+            <h2 className="font-semibold text-gray-900 dark:text-white">
+              {cat.name}{' '}
+              <span className="text-xs font-normal text-gray-400">({cat.files.length})</span>
+            </h2>
+            <button
+              type="button"
+              onClick={() => deleteCategory(cat)}
+              disabled={busy}
+              className="inline-flex items-center gap-1 rounded-full bg-red-500/10 px-2 py-1 text-xs text-red-600 hover:bg-red-500/20 disabled:opacity-60 dark:text-red-400"
+            >
+              <Trash2 size={12} /> 카테고리 삭제
+            </button>
+          </div>
           {cat.files.length === 0 ? (
             <p className="glass rounded-2xl py-5 text-center text-xs text-gray-400">자료 없음</p>
           ) : (
