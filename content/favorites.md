@@ -32,6 +32,9 @@ title: 즐겨찾기
 
 ## Youtube
 
+## Youtube Music
+ - [ZARD](https://music.youtube.com/playlist?list=OLAK5uy_lSTZKqmu-gQfNgqwYzj6mh04vw5QGaaus&si=ciYFrhsCTzWFNNOx) - ZARD Forever Best ～25th Anniversary～
+
 ## 가젯 / 서비스
 - [디에디트](https://the-edit.co.kr/84806) — 8년 동안 살아남은 궁극의 자취템 7
 
