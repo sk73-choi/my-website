@@ -33,6 +33,7 @@ title: 즐겨찾기
 
 ## Youtube
 - [짐코딩](https://youtube.com/playlist?list=PLlaP-jSd-nK9yFk0VEvSvC1qk2GeEZmDq&si=NRU3TxssAnQLwBm8) — 클로드 코드 완벽 마스터
+- [혼잡스](https://youtu.be/HNtS6WGGhNU?si=IucP_QesrwNQVOx5) — 바이브코딩 이 지도 한장으로 속시원하게 끝내드립니다
 
 
 ## Youtube Music
