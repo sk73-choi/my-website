@@ -41,11 +41,9 @@ title: 즐겨찾기
  - [Pop](https://music.youtube.com/playlist?list=PLOSEQLirhCzTAj7zh4GKQ5xCp16u_SxSL&si=QjHoaLxXkiIgbGoX) - hi-fi_pop
  - [KJPOP](https://music.youtube.com/playlist?list=PLOSEQLirhCzQilHmvkBBkCuOxtDbn6OFZ&si=AUSJCSFOX4_GCq5L) - hi-fi_kjpop
 
-## 가젯 / 서비스
+## 쇼핑 / 가젯 / 서비스
 - [디에디트](https://the-edit.co.kr/84806) — 8년 동안 살아남은 궁극의 자취템 7
-
-
-## 쇼핑
+- [Loop 이어플러그](https://smartstore.naver.com/loopofficial/products/10280235237) - Loop 룹 콰이어트 2 층간소음 집중용 수면용 소음감소 이어플러그
 
 ## 맛집
 
