@@ -40,6 +40,7 @@ title: 즐겨찾기
  - [TWOSJ](https://music.youtube.com/channel/UCc_Pcyv0Snq9-8H7jh43oHQ?si=Z_4VnIIw5WB7bwmP) - TWOSJ
  - [Pop](https://music.youtube.com/playlist?list=PLOSEQLirhCzTAj7zh4GKQ5xCp16u_SxSL&si=QjHoaLxXkiIgbGoX) - hi-fi_pop
  - [KJPOP](https://music.youtube.com/playlist?list=PLOSEQLirhCzQilHmvkBBkCuOxtDbn6OFZ&si=AUSJCSFOX4_GCq5L) - hi-fi_kjpop
+ - [CLASSIC](https://music.youtube.com/playlist?list=PLOSEQLirhCzQCvsuFSMNdD_mpdorqW0Ir&si=1DkGrRN1VtBNK7ho) - hi-fi_classic
 
 ## 쇼핑 / 가젯 / 서비스
 - [디에디트](https://the-edit.co.kr/84806) — 8년 동안 살아남은 궁극의 자취템 7
