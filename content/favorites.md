@@ -17,6 +17,8 @@ title: 즐겨찾기
 - [Anthropic](https://www.anthropic.com) — Claude 개발사
 - [YOUTUBE](https://youtu.be/bhp1OCsiGtc?si=0NAZVfjD-ruWfEb5) - MCP 기초(메타코드)
 - [YOUTUBE](https://youtu.be/46HxP7kO9oY?si=bXQ4oZCiaRrVsOMr) - AI 시대의 필수 지식 MCP 이 영상 하나로 끝내세요(조코딩)
+- [YOUTUBE](https://youtu.be/DuwZKH2DMQ0?si=UevLQatD1mrpT_vd) - 
+Obsidian LLM Wiki 초보자 설치부터 사용까지(편한IT)
 
 ## 데이터 사이언스
 
