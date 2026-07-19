@@ -15,6 +15,8 @@ title: 즐겨찾기
 ## AI
 
 - [Anthropic](https://www.anthropic.com) — Claude 개발사
+- [YOUTUBE](https://youtu.be/bhp1OCsiGtc?si=0NAZVfjD-ruWfEb5) - MCP 기초(메타코드)
+- [YOUTUBE](https://youtu.be/46HxP7kO9oY?si=bXQ4oZCiaRrVsOMr) - AI 시대의 필수 지식 MCP 이 영상 하나로 끝내세요(조코딩)
 
 ## 데이터 사이언스
 
@@ -36,8 +38,7 @@ title: 즐겨찾기
 - [혼잡스](https://youtu.be/HNtS6WGGhNU?si=IucP_QesrwNQVOx5) — 바이브코딩 이 지도 한장으로 속시원하게 끝내드립니다
 - [개인 재생목록 1](https://youtube.com/playlist?list=PLOSEQLirhCzSWl50zqJBu9y9P1iF-0FRk&si=FGAnnwrxwCIQ2hkM) — Zard2
 - [애니 추천1](https://youtu.be/eqv1GiSqvZw?si=ZHcOCgqLSJssltXX) - 문라이즈
-- [AI 스터디](https://youtu.be/bhp1OCsiGtc?si=0NAZVfjD-ruWfEb5) - MCP 기초(메타코드)
-- [AI 스터디](https://youtu.be/46HxP7kO9oY?si=bXQ4oZCiaRrVsOMr) - AI 시대의 필수 지식 MCP 이 영상 하나로 끝내세요(조코딩)
+
 
 
 ## Youtube Music / Tidal
