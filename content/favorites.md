@@ -37,13 +37,15 @@ title: 즐겨찾기
 - [개인 재생목록 1](https://youtube.com/playlist?list=PLOSEQLirhCzSWl50zqJBu9y9P1iF-0FRk&si=FGAnnwrxwCIQ2hkM) — Zard2
 
 
-## Youtube Music
- - [ZARD](https://music.youtube.com/playlist?list=OLAK5uy_lSTZKqmu-gQfNgqwYzj6mh04vw5QGaaus&si=ciYFrhsCTzWFNNOx) - ZARD Forever Best ～25th Anniversary～
- - [ZARD](https://music.youtube.com/playlist?list=OLAK5uy_kLk5rd1sK1XXihprW_R-AAs02xQkNGeXc&si=RvUnbH3er4Js1vJw) - ZARD Best Request ～35th Anniversary～
- - [TWOSJ](https://music.youtube.com/channel/UCc_Pcyv0Snq9-8H7jh43oHQ?si=Z_4VnIIw5WB7bwmP) - TWOSJ
- - [Pop](https://music.youtube.com/playlist?list=PLOSEQLirhCzTAj7zh4GKQ5xCp16u_SxSL&si=QjHoaLxXkiIgbGoX) - hi-fi_pop
- - [KJPOP](https://music.youtube.com/playlist?list=PLOSEQLirhCzQilHmvkBBkCuOxtDbn6OFZ&si=AUSJCSFOX4_GCq5L) - hi-fi_kjpop
- - [CLASSIC](https://music.youtube.com/playlist?list=PLOSEQLirhCzQCvsuFSMNdD_mpdorqW0Ir&si=1DkGrRN1VtBNK7ho) - hi-fi_classic
+## Youtube Music / Tidal
+ - [YMUSIC](https://music.youtube.com/playlist?list=OLAK5uy_lSTZKqmu-gQfNgqwYzj6mh04vw5QGaaus&si=ciYFrhsCTzWFNNOx) - ZARD Forever Best ～25th Anniversary～
+ - [YMUSIC](https://music.youtube.com/playlist?list=OLAK5uy_kLk5rd1sK1XXihprW_R-AAs02xQkNGeXc&si=RvUnbH3er4Js1vJw) - ZARD Best Request ～35th Anniversary～
+ - [YMUSIC](https://music.youtube.com/channel/UCc_Pcyv0Snq9-8H7jh43oHQ?si=Z_4VnIIw5WB7bwmP) - TWOSJ
+ - [TIDAL](https://tidal.com/playlist/e7515206-c025-4cf8-add9-382122195f22) - Reference
+ - [YMUSIC](https://music.youtube.com/playlist?list=PLOSEQLirhCzTAj7zh4GKQ5xCp16u_SxSL&si=QjHoaLxXkiIgbGoX) - hi-fi_pop
+ - [YMUSIC](https://music.youtube.com/playlist?list=PLOSEQLirhCzQilHmvkBBkCuOxtDbn6OFZ&si=AUSJCSFOX4_GCq5L) - hi-fi_kjpop
+ - [YMUSIC](https://music.youtube.com/playlist?list=PLOSEQLirhCzQCvsuFSMNdD_mpdorqW0Ir&si=1DkGrRN1VtBNK7ho) - hi-fi_classic
+
 
 ## 쇼핑 / 가젯 / 서비스
 - [디에디트](https://the-edit.co.kr/84806) — 8년 동안 살아남은 궁극의 자취템 7
