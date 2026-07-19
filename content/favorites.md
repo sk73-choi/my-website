@@ -40,27 +40,27 @@ title: 즐겨찾기
 - [짐코딩](https://youtube.com/playlist?list=PLlaP-jSd-nK9yFk0VEvSvC1qk2GeEZmDq&si=NRU3TxssAnQLwBm8) — 클로드 코드 완벽 마스터
 - [혼잡스](https://youtu.be/HNtS6WGGhNU?si=IucP_QesrwNQVOx5) — 바이브코딩 이 지도 한장으로 속시원하게 끝내드립니다
 - [개인 재생목록 1](https://youtube.com/playlist?list=PLOSEQLirhCzSWl50zqJBu9y9P1iF-0FRk&si=FGAnnwrxwCIQ2hkM) — Zard2
-- [애니 추천1](https://youtu.be/eqv1GiSqvZw?si=ZHcOCgqLSJssltXX) - 문라이즈
+- [애니 추천1](https://youtu.be/eqv1GiSqvZw?si=ZHcOCgqLSJssltXX) — 문라이즈
 
 
 
 ## Youtube Music / Tidal
- - [YMUSIC](https://music.youtube.com/playlist?list=OLAK5uy_lSTZKqmu-gQfNgqwYzj6mh04vw5QGaaus&si=ciYFrhsCTzWFNNOx) - ZARD Forever Best ～25th Anniversary～
- - [YMUSIC](https://music.youtube.com/playlist?list=OLAK5uy_kLk5rd1sK1XXihprW_R-AAs02xQkNGeXc&si=RvUnbH3er4Js1vJw) - ZARD Best Request ～35th Anniversary～
- - [YMUSIC](https://music.youtube.com/channel/UCc_Pcyv0Snq9-8H7jh43oHQ?si=Z_4VnIIw5WB7bwmP) - TWOSJ
- - [TIDAL](https://tidal.com/playlist/e7515206-c025-4cf8-add9-382122195f22) - Reference
- - [TIDAL](https://tidal.com/playlist/afd544ae-5ee3-41aa-977c-c514b218532c) - my_pop
- - [TIDAL](https://tidal.com/playlist/d96921fd-af3d-4588-aa08-a4b3e185dc2a) - my_kpop
- - [TIDAL](https://tidal.com/playlist/b067e150-3604-4dd6-a786-f2221cb95ceb) - my_jpop
- - [TIDAL](https://tidal.com/playlist/13091f4f-eddc-4d3d-a922-ab122c5a73e5) - 네티즌이 뽑은 클래식 43
- - [YMUSIC](https://music.youtube.com/playlist?list=PLOSEQLirhCzTAj7zh4GKQ5xCp16u_SxSL&si=QjHoaLxXkiIgbGoX) - hi-fi_pop
- - [YMUSIC](https://music.youtube.com/playlist?list=PLOSEQLirhCzQilHmvkBBkCuOxtDbn6OFZ&si=AUSJCSFOX4_GCq5L) - hi-fi_kjpop
- - [YMUSIC](https://music.youtube.com/playlist?list=PLOSEQLirhCzQCvsuFSMNdD_mpdorqW0Ir&si=1DkGrRN1VtBNK7ho) - hi-fi_classic
+ - [YMUSIC](https://music.youtube.com/playlist?list=OLAK5uy_lSTZKqmu-gQfNgqwYzj6mh04vw5QGaaus&si=ciYFrhsCTzWFNNOx) — ZARD Forever Best ～25th Anniversary～
+ - [YMUSIC](https://music.youtube.com/playlist?list=OLAK5uy_kLk5rd1sK1XXihprW_R-AAs02xQkNGeXc&si=RvUnbH3er4Js1vJw) — ZARD Best Request ～35th Anniversary～
+ - [YMUSIC](https://music.youtube.com/channel/UCc_Pcyv0Snq9-8H7jh43oHQ?si=Z_4VnIIw5WB7bwmP) — TWOSJ
+ - [TIDAL](https://tidal.com/playlist/e7515206-c025-4cf8-add9-382122195f22) — Reference
+ - [TIDAL](https://tidal.com/playlist/afd544ae-5ee3-41aa-977c-c514b218532c) — my_pop
+ - [TIDAL](https://tidal.com/playlist/d96921fd-af3d-4588-aa08-a4b3e185dc2a) — my_kpop
+ - [TIDAL](https://tidal.com/playlist/b067e150-3604-4dd6-a786-f2221cb95ceb) — my_jpop
+ - [TIDAL](https://tidal.com/playlist/13091f4f-eddc-4d3d-a922-ab122c5a73e5) — 네티즌이 뽑은 클래식 43
+ - [YMUSIC](https://music.youtube.com/playlist?list=PLOSEQLirhCzTAj7zh4GKQ5xCp16u_SxSL&si=QjHoaLxXkiIgbGoX) — hi-fi_pop
+ - [YMUSIC](https://music.youtube.com/playlist?list=PLOSEQLirhCzQilHmvkBBkCuOxtDbn6OFZ&si=AUSJCSFOX4_GCq5L) — hi-fi_kjpop
+ - [YMUSIC](https://music.youtube.com/playlist?list=PLOSEQLirhCzQCvsuFSMNdD_mpdorqW0Ir&si=1DkGrRN1VtBNK7ho) — hi-fi_classic
 
 
 ## 쇼핑 / 가젯 / 서비스
 - [디에디트](https://the-edit.co.kr/84806) — 8년 동안 살아남은 궁극의 자취템 7
-- [Loop 이어플러그](https://smartstore.naver.com/loopofficial/products/10280235237) - Loop 룹 콰이어트 2 층간소음 집중용 수면용 소음감소 이어플러그
+- [Loop 이어플러그](https://smartstore.naver.com/loopofficial/products/10280235237) — Loop 룹 콰이어트 2 층간소음 집중용 수면용 소음감소 이어플러그
 
 ## 맛집
 
