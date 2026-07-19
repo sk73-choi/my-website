@@ -26,6 +26,8 @@ title: 즐겨찾기
 
 ## 취미
 
+- [디에디트](https://the-edit.co.kr/85115) — 디톡스가 필요할 때 읽기 좋은 책 5
+
 ## 여행
 
 ## Youtube
@@ -36,7 +38,7 @@ title: 즐겨찾기
 
 ## 맛집
 
-- [디에디트](https://the-edit.co.kr/86673) — 코드 호스팅
+- [디에디트](https://the-edit.co.kr/86673) — 콩국수 맛집 12
 - [디에디트](https://the-edit.co.kr/85916) — 경주의 필수 카페 코스
 - [디에디트](https://the-edit.co.kr/84857) — 도쿄 맛집 11끼
 
