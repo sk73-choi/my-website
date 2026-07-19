@@ -27,14 +27,17 @@ title: 즐겨찾기
 ## 취미
 
 - [디에디트](https://the-edit.co.kr/85115) — 디톡스가 필요할 때 읽기 좋은 책 5
+- [디에디트](https://the-edit.co.kr/84167) — 늙는 게 두려울 때 읽는 책 4
 
 ## 여행
 
 ## Youtube
 
+
 ## Youtube Music
  - [ZARD](https://music.youtube.com/playlist?list=OLAK5uy_lSTZKqmu-gQfNgqwYzj6mh04vw5QGaaus&si=ciYFrhsCTzWFNNOx) - ZARD Forever Best ～25th Anniversary～
  - [ZARD](https://music.youtube.com/playlist?list=OLAK5uy_kLk5rd1sK1XXihprW_R-AAs02xQkNGeXc&si=RvUnbH3er4Js1vJw) - ZARD Best Request ～35th Anniversary～
+ - [TWOSJ](https://music.youtube.com/channel/UCc_Pcyv0Snq9-8H7jh43oHQ?si=Z_4VnIIw5WB7bwmP) - TWOSJ
 
 ## 가젯 / 서비스
 - [디에디트](https://the-edit.co.kr/84806) — 8년 동안 살아남은 궁극의 자취템 7
@@ -47,5 +50,7 @@ title: 즐겨찾기
 - [디에디트](https://the-edit.co.kr/86673) — 콩국수 맛집 12
 - [디에디트](https://the-edit.co.kr/85916) — 경주의 필수 카페 코스
 - [디에디트](https://the-edit.co.kr/84857) — 도쿄 맛집 11끼
+- [디에디트](https://the-edit.co.kr/84108) — 국밥 맛집 9
+
 
 ## 기타
