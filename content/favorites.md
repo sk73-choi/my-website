@@ -32,6 +32,7 @@ title: 즐겨찾기
 ## 여행
 
 ## Youtube
+- [짐코딩](https://youtube.com/playlist?list=PLlaP-jSd-nK9yFk0VEvSvC1qk2GeEZmDq&si=NRU3TxssAnQLwBm8) — 클로드 코드 완벽 마스터
 
 
 ## Youtube Music
