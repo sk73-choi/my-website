@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from './AuthContext'
 import { actionsUrl } from '../lib/github'
+import { DeployStatusBadge } from './DeployStatusBadge'
 import { getSortedPosts } from '../data/posts'
 import { getSortedFiles } from '../data/files'
 import { links as bookmarkLinks } from '../data/bookmarks'
@@ -131,14 +132,17 @@ function AdminDashboard() {
             관리자에서 저장하면 저장소에 커밋되고 GitHub Actions가 사이트를 자동
             갱신합니다(약 1~2분).
           </p>
-          <a
-            href={actionsUrl()}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="mt-2 inline-flex items-center gap-1 font-medium text-indigo-600 hover:underline dark:text-indigo-400"
-          >
-            배포 진행 상황 보기 <ExternalLink size={13} />
-          </a>
+          <div className="mt-2 flex flex-wrap items-center gap-3">
+            <DeployStatusBadge />
+            <a
+              href={actionsUrl()}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="inline-flex items-center gap-1 font-medium text-indigo-600 hover:underline dark:text-indigo-400"
+            >
+              배포 진행 상황 보기 <ExternalLink size={13} />
+            </a>
+          </div>
         </div>
       </div>
 

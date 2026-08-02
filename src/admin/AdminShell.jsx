@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { ArrowLeft, ExternalLink, CheckCircle2, AlertCircle, LoaderCircle } from 'lucide-react'
-import { actionsUrl } from '../lib/github'
+import { ArrowLeft, CheckCircle2, AlertCircle, LoaderCircle } from 'lucide-react'
+import { DeployStatusBadge } from './DeployStatusBadge'
 
 // 관리자 하위 페이지 공통 레이아웃 (뒤로가기 + 제목)
 export function AdminShell({ title, backTo = '/admin', actions, children }) {
@@ -41,14 +41,7 @@ export function StatusBanner({ status, message }) {
     return (
       <div className="mb-4 flex flex-wrap items-center gap-2 rounded-xl bg-green-500/10 px-4 py-3 text-sm text-green-700 dark:text-green-300">
         <CheckCircle2 size={16} /> {message ?? '저장되었습니다.'} 약 1~2분 후 사이트에 반영됩니다.
-        <a
-          href={actionsUrl()}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="inline-flex items-center gap-1 font-medium underline"
-        >
-          배포 보기 <ExternalLink size={12} />
-        </a>
+        <DeployStatusBadge className="ml-1" delayMs={6000} />
       </div>
     )
   }

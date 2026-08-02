@@ -19,16 +19,16 @@ export function humanSize(bytes) {
   return `${(bytes / 1024 / 1024).toFixed(1)}MB`
 }
 
-// 파일명을 URL/경로 안전하게 정리 (공백→하이픈, 위험 문자 제거, 확장자 유지)
+// 파일명을 URL/경로 안전하게 정리 (공백→언더스코어, 위험 문자 제거, 확장자 유지)
 // 한글 등 유니코드 글자는 보존하고, 경로에 실제로 위험한 문자만 제거한다.
 // (\w 는 ASCII만 매칭해 한글이 전부 사라지는 문제가 있었음)
 export function safeFileName(name) {
   const dot = name.lastIndexOf('.')
   const base = (dot === -1 ? name : name.slice(0, dot))
     .trim()
-    .replace(/\s+/g, '-')
+    .replace(/\s+/g, '_')
     .replace(/[^\p{L}\p{N}_\-.]/gu, '')
-    .replace(/-+/g, '-')
+    .replace(/_+/g, '_')
   const ext = dot === -1 ? '' : name.slice(dot).toLowerCase()
   return (base || 'file') + ext
 }
