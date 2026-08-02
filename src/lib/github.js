@@ -121,3 +121,21 @@ export async function ghListDir(token, path) {
 export function actionsUrl() {
   return `https://github.com/${REPO.owner}/${REPO.name}/actions`
 }
+
+// 최근 배포(deploy.yml) 실행 1건 조회. 공개 저장소라 인증 없이도 조회 가능.
+// 반환: { status: queued|in_progress|completed, conclusion, title, updatedAt, url } | null
+export async function ghLatestDeployRun() {
+  const url = `${API}/repos/${REPO.owner}/${REPO.name}/actions/workflows/deploy.yml/runs?per_page=1&branch=${REPO.branch}`
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`배포 상태 조회 실패 (${res.status})`)
+  const json = await res.json()
+  const run = json.workflow_runs?.[0]
+  if (!run) return null
+  return {
+    status: run.status,
+    conclusion: run.conclusion,
+    title: run.display_title,
+    updatedAt: run.updated_at,
+    url: run.html_url,
+  }
+}
