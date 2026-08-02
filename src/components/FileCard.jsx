@@ -3,7 +3,7 @@ import { Download, Eye } from 'lucide-react'
 import { formatDate } from '../lib/format'
 
 // 파일 유형별 그라데이션 색상
-const typeColor = {
+export const typeColor = {
   pdf: 'from-red-500 to-rose-500',
   pptx: 'from-orange-500 to-amber-500',
   ppt: 'from-orange-500 to-amber-500',
