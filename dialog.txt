@@ -921,9 +921,10 @@ SEO·읽기·성능)을 dialog.txt 에 추가하고 요약 갱신.
     이전 전체이력은 로컬 백업 번들(../my-website-backup-20260628-102713.bundle)에 보관.
 - 네비: 홈 · 소개 · 블로그 · 즐겨찾기 · 사진 (+ 자료실=관리자 로그인 시에만)
   (+ 우상단 검색·다크토글, Ctrl+K)
-- 인증: AuthProvider 가 App 최상위(공개+관리자 공유). 자료실(/files)은 관리자 전용
-  클라이언트 게이트(RequireAdmin) — 비로그인 시 안내+로그인버튼, Navbar·홈·검색·
-  sitemap 에서도 숨김. ※ 정적 사이트라 파일 직링크 자체는 차단 못 함(목록만 숨김).
+- 인증: AuthProvider 가 App 최상위(공개+관리자 공유). 자료실(/files)은 접근 코드
+  게이트(RequireAccessCode) — 관리자 로그인 시 코드 없이 통과, 아니면 접근 코드 입력
+  폼 표시(코드=.env VITE_FILES_ACCESS_CODE, localStorage 로 재방문 시 생략).
+  ※ 정적 사이트라 파일 직링크 자체는 차단 못 함(목록·화면만 가려짐).
 - 콘텐츠 모델:
   · 블로그 = src/posts/*.md (frontmatter, 이미지=public/blog-images/)
   · 자료실 = public/files/{카테고리}/ 폴더가 원본 → 빌드 시 generate-files.mjs 가
