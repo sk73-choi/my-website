@@ -212,6 +212,46 @@ body {
   margin: 1.25rem 0;
   display: block;
 }
+/* 이미지 그리드(제목+썸네일 카드 나열, 예: MAME 게임 목록) */
+.prose-custom .mame-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+  list-style: none;
+  padding: 0;
+}
+.prose-custom .mame-grid figure {
+  margin: 0;
+  border-radius: 0.6rem;
+  background: var(--color-gray-50);
+  overflow: hidden;
+  text-align: center;
+}
+.dark .prose-custom .mame-grid figure {
+  background: rgb(255 255 255 / 0.05);
+}
+.prose-custom .mame-grid img {
+  margin: 0;
+  border-radius: 0;
+  width: 100%;
+  aspect-ratio: 224 / 256;
+  object-fit: contain;
+  background: var(--color-gray-100);
+}
+.dark .prose-custom .mame-grid img {
+  background: rgb(255 255 255 / 0.08);
+}
+.prose-custom .mame-grid figcaption {
+  padding: 0.35rem 0.4rem;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  color: var(--color-gray-600);
+  word-break: break-word;
+}
+.dark .prose-custom .mame-grid figcaption {
+  color: var(--color-gray-400);
+}
 /* 표 */
 .prose-custom table {
   width: 100%;
