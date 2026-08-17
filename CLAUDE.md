@@ -30,14 +30,16 @@ GitHub Pages로 배포. 파일 자료실(PDF/PPT/Excel/Word/MD) 포함.
 홈 · 소개 · 블로그 · 즐겨찾기 · 사진 · (자료실=관리자 로그인 시에만) (강조색: 홈=보라,
 소개=하늘, 블로그=초록(라임→틸), 즐겨찾기=주황, 사진=노랑→분홍, 자료실=보라)
 
-## 자료실 접근 제한 (관리자 전용)
-- 자료실(/files)은 관리자(저장소 소유자 GitHub 토큰) 로그인 시에만 노출.
+## 자료실 접근 제한 (접근 코드 게이트)
+- 자료실(/files)은 접근 코드를 입력해야 열람 가능. 관리자(저장소 소유자 GitHub 토큰)
+  로그인 상태면 코드 없이 통과.
 - AuthProvider 를 App 최상위로 올려 공개 페이지와 로그인 상태 공유. /files 는
-  RequireAdmin(src/components/RequireAdmin.jsx) 가드로 감싸 비로그인 시 "관리자 전용"
-  안내 + 로그인 버튼 표시. Navbar 메뉴·홈 "최근 자료"·자료실 CTA·전역검색 결과·
-  sitemap(/files) 모두 비로그인 시 숨김.
+  RequireAccessCode(src/components/RequireAccessCode.jsx) 가드로 감싸, 관리자 로그인이
+  아니면 접근 코드 입력 폼을 표시. 코드는 .env 의 VITE_FILES_ACCESS_CODE 로 설정
+  (빌드 시 JS 번들에 평문 포함 — 비밀번호가 아닌 "문턱" 수준). 통과 시 localStorage 에
+  코드 값을 저장해 재방문 시 다시 묻지 않음(코드 변경 시 기존 통과 기록 자동 무효화).
 - 한계: 정적 + 공개 저장소라 public/files 의 파일 직링크 자체는 차단 불가(목록·화면만
-  숨김). 진짜 차단은 비공개 저장소 + 인증 호스팅 필요.
+  가려짐). 진짜 차단은 비공개 저장소 + 인증 호스팅(예: Cloudflare Pages + Access) 필요.
  
 ## 콘텐츠 모델 (편집 대상)
 - 블로그 글: src/posts/{slug}.md (frontmatter + 본문, 이미지=public/blog-images/)
