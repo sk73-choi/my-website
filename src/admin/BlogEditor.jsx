@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
+import rehypeRaw from 'rehype-raw'
 import { Save, Eye, Pencil, LoaderCircle, Image as ImageIcon } from 'lucide-react'
 import { useAuth } from './AuthContext'
 import { AdminShell, StatusBanner } from './AdminShell'
@@ -287,7 +288,7 @@ function BlogEditor() {
           <div className="prose-custom min-h-[60vh] rounded-lg bg-white/40 p-4 dark:bg-white/5">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeHighlight]}
+              rehypePlugins={[rehypeRaw, rehypeHighlight]}
               components={{ img: MdImage, pre: CodePre }}
             >
               {body || '_(미리볼 내용이 없습니다)_'}

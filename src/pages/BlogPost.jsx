@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
+import rehypeRaw from 'rehype-raw'
 import { ArrowLeft, ArrowRight, Calendar, Clock } from 'lucide-react'
 import { getPostBySlug, getPostContent, getSortedPosts } from '../data/posts'
 import { formatDate } from '../lib/format'
@@ -105,7 +106,7 @@ function BlogPost() {
           <div className="glass prose-custom rounded-2xl p-6 sm:p-8">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeSlug, rehypeHighlight]}
+              rehypePlugins={[rehypeRaw, rehypeSlug, rehypeHighlight]}
               components={{
                 // 본문 최상단 h1(글 제목 중복)은 렌더링하지 않음
                 h1: () => null,
