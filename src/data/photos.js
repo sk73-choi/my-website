@@ -6,7 +6,8 @@ import data from './photos.generated.json'
 export const categories = data.categories
 export const photos = data.photos
 
-// manifest 가 이미 최신순으로 정렬되어 있음
+// manifest 가 이미 최신순으로 정렬되어 있음 → 그 순서를 유지한 채
+// 움직이는(animated) 사진만 앞으로 당겨 보여준다.
 export function getSortedPhotos() {
-  return photos
+  return [...photos].sort((a, b) => (b.animated ? 1 : 0) - (a.animated ? 1 : 0))
 }
