@@ -1,7 +1,7 @@
 ---
 name: SK Choi
-role: 프론트엔드 개발자 · 기록하는 사람
-location: Seoul, Korea
+role: 데이터 분석, AI, 기록하는 사람
+location: Daegu, Korea
 email: choisk73@gmail.com
 github: https://github.com
 ---
