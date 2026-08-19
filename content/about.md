@@ -18,9 +18,8 @@ github: https://github.com
 
 ## 소개
 
-안녕하세요. 웹 프론트엔드를 만들고, 배운 것을 글로 정리하는 걸 좋아하는 개발자입니다.
-
-복잡한 문제를 단순한 인터페이스로 풀어내는 일과, 데이터를 보기 좋게 시각화하는 일에 관심이 많습니다. 이 사이트도 그런 기록을 모아두려고 직접 만들었습니다.
+안녕하세요. 
+AI(Claude code)로 GitHub에 만든 웹사이트라서 제약이 많습니다.
 
 ## 스킬
 
@@ -31,7 +30,7 @@ React, JavaScript, HTML/CSS, Tailwind CSS, Vite
 Git/GitHub, Figma, REST API, Markdown
 
 ### 관심 분야 | Sparkles
-데이터 시각화, UI/UX, 오픈소스, 기술 글쓰기
+데이터 사이언스, AI, 고전게임, 음악듣기, 여행
 
 ## 발자취
 
