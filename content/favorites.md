@@ -12,6 +12,7 @@ title: 즐겨찾기
 
 ## 경제/투자
 
+
 ## AI
 - [WEB](https://www.anthropic.com) — Anthropic - Claude 개발사
 - [YOUTUBE](https://youtu.be/bhp1OCsiGtc?si=0NAZVfjD-ruWfEb5) — MCP 기초(메타코드)
@@ -24,8 +25,16 @@ title: 즐겨찾기
 ## 데이터 사이언스
 - [Kaggle](https://www.kaggle.com) — 데이터셋·경진대회
 
+
 ## IT
 - [GitHub](https://github.com) — 코드 호스팅
+
+
+## Game
+- [꿀딴지곰](https://youtu.be/xyBPZdLE_Fw?si=82jkrIUezTLnV-aq) — 오락실 금단의 비기 - 1부
+- [꿀딴지곰](https://youtu.be/qAri9cqmBMY?si=-70MZMUkNzfqStCO) — 오락실 금단의 비기 - 2부
+- [꿀딴지곰](https://youtu.be/rvYzPRxBeCA?si=OYPrbd7RMexjkVUR) — 오락실 금단의 비기 - 3부
+
 
 ## 취미
 - [디에디트](https://the-edit.co.kr/85115) — 디톡스가 필요할 때 읽기 좋은 책 5
@@ -36,10 +45,11 @@ title: 즐겨찾기
 - [프리비젼스 김도헌](https://youtu.be/YQqm4yZM0Og?si=bIrs2TVG7eaXP6fg) — 좋은 음질로 이어폰 듣는 방법!! 이렇게 하셔야 합니다! 이어폰 사용자라면 꼭 시청하세요~
 - [프리비젼스 김도헌](https://youtu.be/87Ls_L7dtaY?si=eqWOHSAiDfPqpINC) — (음향강의) 96kHz, 192kHz의 음질 필요한가? / 초고역 들을 수 있다고요? 정말?
 - [삼아사운드](https://youtu.be/y5lLyJf9Dak?si=Y_NNAwXTTGYUdyDk) — 오디오에 관심이 있다면 한 번쯤은 보셨을 이 숫자 I 샘플링 레이트란?
-- []() — 
-- []() — 
-- []() — 
-- []() — 
+- [인도주재원](https://youtu.be/JUvvqN2m-ps?si=PVJggTweVAlPJZSA) — 
+PC-FI의 모든 애매한 것을 문과생 수준으로 설명하였습니다. 사운드카드, 코딩, 무손실 음원, PCM, DSD 코딩의 차이 등 PC-FI의 모든 사항을 설명해 보았습니다
+- [시우의 시선](https://youtu.be/9yaxVICc0IE?si=g0agPPnBMIouM0T6) — 
+평생 써먹는 인물 사진 잘 찍는 법 거울샷부터 포즈까지 상황별로 핵심만 알려드려요!
+- [사진찍는회계사](https://youtu.be/xXHGs4GcAEo?si=_ACCeOnQ-biB0nX3) — 노출계! 이건 반드시 알고 넘어가야 합니다
 - []() — 
 
 
@@ -47,11 +57,19 @@ title: 즐겨찾기
 ## 여행
 - [일본여행](https://youtu.be/8YIU4w8AMq4?si=FNsJffp3ooi6zK9S) — 일타강사 윤서인이 말하는 진짜 일본 여행: 라멘부터 료칸 콘비니까지 완벽 정리
 
+
 ## Youtube
 - [짐코딩](https://youtube.com/playlist?list=PLlaP-jSd-nK9yFk0VEvSvC1qk2GeEZmDq&si=NRU3TxssAnQLwBm8) — 클로드 코드 완벽 마스터
 - [혼잡스](https://youtu.be/HNtS6WGGhNU?si=IucP_QesrwNQVOx5) — 바이브코딩 이 지도 한장으로 속시원하게 끝내드립니다
 - [개인 재생목록 1](https://youtube.com/playlist?list=PLOSEQLirhCzSWl50zqJBu9y9P1iF-0FRk&si=FGAnnwrxwCIQ2hkM) — Zard2
 - [애니 추천1](https://youtu.be/eqv1GiSqvZw?si=ZHcOCgqLSJssltXX) — 문라이즈
+- [클래식 읽어주는 남자](https://youtu.be/GxSiC4yVCgA?si=rBzbf_M8WB2Pct4l) — 도입부로 게임 끝내는 클래식 음악
+- [클래식 읽어주는 남자](https://youtu.be/wtnpMDQGK5k?si=t9IY_FMC2gfL0Lac) — 도입부로 게임 끝내는 클래식 음악 2편
+- []() — 
+- []() — 
+- []() — 
+- []() — 
+- []() — 
 
 
 ## Youtube Music / Tidal
@@ -72,8 +90,8 @@ title: 즐겨찾기
 - [디에디트](https://the-edit.co.kr/84806) — 8년 동안 살아남은 궁극의 자취템 7
 - [Loop 이어플러그](https://smartstore.naver.com/loopofficial/products/10280235237) — Loop 룹 콰이어트 2 층간소음 집중용 수면용 소음감소 이어플러그
 
-## 맛집
 
+## 맛집
 - [디에디트](https://the-edit.co.kr/86673) — 콩국수 맛집 12
 - [디에디트](https://the-edit.co.kr/85916) — 경주의 필수 카페 코스
 - [디에디트](https://the-edit.co.kr/84857) — 도쿄 맛집 11끼
@@ -82,3 +100,4 @@ title: 즐겨찾기
 
 ## 기타
 - [디에디트](https://the-edit.co.kr/82967) — 에디터 7인이 뽑은 연말 결산.list(2025)
+- [구슬쌤](https://youtu.be/ULs9lZ-orHM?si=R53TPdPv9LKU6l02) — 한국인이 가장 자주 실수하는 발음 모음
