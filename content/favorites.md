@@ -13,7 +13,6 @@ title: 즐겨찾기
 ## 경제/투자
 
 ## AI
-
 - [WEB](https://www.anthropic.com) — Anthropic - Claude 개발사
 - [YOUTUBE](https://youtu.be/bhp1OCsiGtc?si=0NAZVfjD-ruWfEb5) — MCP 기초(메타코드)
 - [YOUTUBE](https://youtu.be/46HxP7kO9oY?si=bXQ4oZCiaRrVsOMr) — AI 시대의 필수 지식 MCP 이 영상 하나로 끝내세요(조코딩)
@@ -23,7 +22,6 @@ title: 즐겨찾기
 
 
 ## 데이터 사이언스
-
 - [Kaggle](https://www.kaggle.com) — 데이터셋·경진대회
 
 ## IT
@@ -33,7 +31,8 @@ title: 즐겨찾기
 - [디에디트](https://the-edit.co.kr/85115) — 디톡스가 필요할 때 읽기 좋은 책 5
 - [디에디트](https://the-edit.co.kr/84167) — 늙는 게 두려울 때 읽는 책 4
 - [마랑 MARANT](https://youtu.be/C68oU9_xIGg?si=_roMAnxfsK1sOlLG) — 초보도 영상 퀄리티 폭발! 클릭 한 번으로 금손 되는 카메라 설정법 
-- [](https://youtu.be/Yyf_YmYzI38?si=mBOK6P6XGzq30NZ5) — 상위 기종 쌉발라버리는 카메라 세팅 도전 하시겠습니까?
+- [마랑 MARANT](https://youtu.be/Yyf_YmYzI38?si=mBOK6P6XGzq30NZ5) — 상위 기종 쌉발라버리는 카메라 세팅 도전 하시겠습니까?
+- [우쓰의 홈레코딩 [WOOSE]](https://youtu.be/6DCzU38rIaI?si=PRWnR8uoGRCwDIO3) — 모니터스피커 올바르게 사용하는 방법(feat. 제네렉 8330 with glm)
 
 ## 여행
 - [일본여행](https://youtu.be/8YIU4w8AMq4?si=FNsJffp3ooi6zK9S) — 일타강사 윤서인이 말하는 진짜 일본 여행: 라멘부터 료칸 콘비니까지 완벽 정리
