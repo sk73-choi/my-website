@@ -19,6 +19,7 @@ title: 즐겨찾기
 - [YOUTUBE](https://youtu.be/46HxP7kO9oY?si=bXQ4oZCiaRrVsOMr) — AI 시대의 필수 지식 MCP 이 영상 하나로 끝내세요(조코딩)
 - [YOUTUBE](https://youtu.be/DuwZKH2DMQ0?si=UevLQatD1mrpT_vd) — Obsidian LLM Wiki 초보자 설치부터 사용까지(편한IT)
 - [WEB](https://jesusiswith.us/class/llm-wiki/obsidian-llm-wiki-%EC%B4%88%EB%B3%B4%EC%9E%90-%EC%84%A4%EC%B9%98%EB%B6%80%ED%84%B0-%EC%82%AC%EC%9A%A9%EA%B9%8C%EC%A7%80/) — Obsidian LLM Wiki 초보자 설치부터 사용까지(편한IT)
+- [3Blue1Brown 한국어](https://youtu.be/wrguEHxk_EI?si=jzwu17-3xcNzp4Os) — 뉴럴네트워크라는걸 들어 보셨다면 보셔야 할 영상
 
 
 ## 데이터 사이언스
@@ -26,22 +27,22 @@ title: 즐겨찾기
 - [Kaggle](https://www.kaggle.com) — 데이터셋·경진대회
 
 ## IT
-
 - [GitHub](https://github.com) — 코드 호스팅
 
 ## 취미
-
 - [디에디트](https://the-edit.co.kr/85115) — 디톡스가 필요할 때 읽기 좋은 책 5
 - [디에디트](https://the-edit.co.kr/84167) — 늙는 게 두려울 때 읽는 책 4
+- [마랑 MARANT](https://youtu.be/C68oU9_xIGg?si=_roMAnxfsK1sOlLG) — 초보도 영상 퀄리티 폭발! 클릭 한 번으로 금손 되는 카메라 설정법 
+- [](https://youtu.be/Yyf_YmYzI38?si=mBOK6P6XGzq30NZ5) — 상위 기종 쌉발라버리는 카메라 세팅 도전 하시겠습니까?
 
 ## 여행
+- [일본여행](https://youtu.be/8YIU4w8AMq4?si=FNsJffp3ooi6zK9S) — 일타강사 윤서인이 말하는 진짜 일본 여행: 라멘부터 료칸 콘비니까지 완벽 정리
 
 ## Youtube
 - [짐코딩](https://youtube.com/playlist?list=PLlaP-jSd-nK9yFk0VEvSvC1qk2GeEZmDq&si=NRU3TxssAnQLwBm8) — 클로드 코드 완벽 마스터
 - [혼잡스](https://youtu.be/HNtS6WGGhNU?si=IucP_QesrwNQVOx5) — 바이브코딩 이 지도 한장으로 속시원하게 끝내드립니다
 - [개인 재생목록 1](https://youtube.com/playlist?list=PLOSEQLirhCzSWl50zqJBu9y9P1iF-0FRk&si=FGAnnwrxwCIQ2hkM) — Zard2
 - [애니 추천1](https://youtu.be/eqv1GiSqvZw?si=ZHcOCgqLSJssltXX) — 문라이즈
-
 
 
 ## Youtube Music / Tidal
