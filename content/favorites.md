@@ -33,6 +33,16 @@ title: 즐겨찾기
 - [마랑 MARANT](https://youtu.be/C68oU9_xIGg?si=_roMAnxfsK1sOlLG) — 초보도 영상 퀄리티 폭발! 클릭 한 번으로 금손 되는 카메라 설정법 
 - [마랑 MARANT](https://youtu.be/Yyf_YmYzI38?si=mBOK6P6XGzq30NZ5) — 상위 기종 쌉발라버리는 카메라 세팅 도전 하시겠습니까?
 - [우쓰의 홈레코딩 [WOOSE]](https://youtu.be/6DCzU38rIaI?si=PRWnR8uoGRCwDIO3) — 모니터스피커 올바르게 사용하는 방법(feat. 제네렉 8330 with glm)
+- [프리비젼스 김도헌](https://youtu.be/YQqm4yZM0Og?si=bIrs2TVG7eaXP6fg) — 좋은 음질로 이어폰 듣는 방법!! 이렇게 하셔야 합니다! 이어폰 사용자라면 꼭 시청하세요~
+- [프리비젼스 김도헌](https://youtu.be/87Ls_L7dtaY?si=eqWOHSAiDfPqpINC) — (음향강의) 96kHz, 192kHz의 음질 필요한가? / 초고역 들을 수 있다고요? 정말?
+- [삼아사운드](https://youtu.be/y5lLyJf9Dak?si=Y_NNAwXTTGYUdyDk) — 오디오에 관심이 있다면 한 번쯤은 보셨을 이 숫자 I 샘플링 레이트란?
+- []() — 
+- []() — 
+- []() — 
+- []() — 
+- []() — 
+
+
 
 ## 여행
 - [일본여행](https://youtu.be/8YIU4w8AMq4?si=FNsJffp3ooi6zK9S) — 일타강사 윤서인이 말하는 진짜 일본 여행: 라멘부터 료칸 콘비니까지 완벽 정리
