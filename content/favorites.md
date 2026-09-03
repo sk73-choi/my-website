@@ -69,11 +69,6 @@ PC-FI의 모든 애매한 것을 문과생 수준으로 설명하였습니다. �
 - [애니 추천1](https://youtu.be/eqv1GiSqvZw?si=ZHcOCgqLSJssltXX) — 문라이즈
 - [클래식 읽어주는 남자](https://youtu.be/GxSiC4yVCgA?si=rBzbf_M8WB2Pct4l) — 도입부로 게임 끝내는 클래식 음악
 - [클래식 읽어주는 남자](https://youtu.be/wtnpMDQGK5k?si=t9IY_FMC2gfL0Lac) — 도입부로 게임 끝내는 클래식 음악 2편
-- []() — 
-- []() — 
-- []() — 
-- []() — 
-- []() — 
 
 
 ## Youtube Music / Tidal
