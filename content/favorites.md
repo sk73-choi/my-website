@@ -30,6 +30,11 @@ title: 즐겨찾기
 - [GitHub](https://github.com) — 코드 호스팅
 
 
+## 건강
+- [서울대학교병원 강남센터](https://youtu.be/TiMJOt6stPE?si=GevSE1mH4wrEmgEI) — 2019 정선근 교수의 '백년운동' - 허리운동 편
+- [서울대학교병원 강남센터](https://youtu.be/EaC9yC3NkRk?si=uQ4ef560rgMe6Xeo) — 허리 좋아지려면 3하고 3마라! 정선근 교수가 알려주는 허리 운동법칙
+
+
 ## Game
 - [꿀딴지곰](https://youtu.be/xyBPZdLE_Fw?si=82jkrIUezTLnV-aq) — 오락실 금단의 비기 - 1부
 - [꿀딴지곰](https://youtu.be/qAri9cqmBMY?si=-70MZMUkNzfqStCO) — 오락실 금단의 비기 - 2부
@@ -50,8 +55,7 @@ PC-FI의 모든 애매한 것을 문과생 수준으로 설명하였습니다. �
 - [시우의 시선](https://youtu.be/9yaxVICc0IE?si=g0agPPnBMIouM0T6) — 
 평생 써먹는 인물 사진 잘 찍는 법 거울샷부터 포즈까지 상황별로 핵심만 알려드려요!
 - [사진찍는회계사](https://youtu.be/xXHGs4GcAEo?si=_ACCeOnQ-biB0nX3) — 노출계! 이건 반드시 알고 넘어가야 합니다
-- []() — 
-
+- [카설](https://www.youtube.com/live/Cl3n_h7M960?si=Al5UZ7wamkJhQtC6) — 소니 미러리스 나만의 조작 체계를 만들어가는 방법 | a7M4, a1, a7S3
 
 
 ## 여행
