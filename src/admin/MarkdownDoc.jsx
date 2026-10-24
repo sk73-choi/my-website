@@ -39,7 +39,17 @@ function MarkdownDoc({ title, path, help, accent = 'from-fuchsia-600 to-indigo-6
     setStatus('saving')
     setMessage(null)
     try {
-      await ghPutFile(token, path, text, `${title} 수정`, sha)
+      let saveSha = sha
+      try {
+        await ghPutFile(token, path, text, `${title} 수정`, saveSha)
+      } catch (e) {
+        // sha 충돌(409): 편집기가 들고 있던 sha가 오래됐다는 뜻이므로
+        // 최신 sha 를 다시 받아와 한 번만 재시도한다.
+        if (!e.message.includes('409')) throw e
+        const latest = await ghGetFile(token, path)
+        saveSha = latest?.sha ?? null
+        await ghPutFile(token, path, text, `${title} 수정`, saveSha)
+      }
       const file = await ghGetFile(token, path)
       setSha(file?.sha ?? null)
       setStatus('success')
