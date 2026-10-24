@@ -1,7 +1,7 @@
 ---
 title: My MAME Game List(2026년 8월 17일)
 date: 2026-08-17
-excerpt: MAME 아케이드 게임 584개의 이름과 스크린샷을 그리드로 정리했습니다.
+excerpt: 최종 선정한 MAME 아케이드 게임 584개의 이름과 스크린샷(AI로 정리하다보니 번역이 이상거나 중복된 게임이 있을 수 있음)
 tags: [MAME, 아케이드, 게임]
 ---
 # My MAME Game List(2026년 8월 17일)
