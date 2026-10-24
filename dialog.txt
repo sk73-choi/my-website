@@ -938,12 +938,58 @@ SEO·읽기·성능)을 dialog.txt 에 추가하고 요약 갱신.
   (ZARD - 気楽に行こう.mp4, ~47MB)으로 그리드·라이트박스 재생까지 확인 후 반영.
 
 
+────────────────────────────────────────────────────────────────────────────
+[USER] 다른 PC에서 작업 이어가다 git push 가 "rejected (fetch first)" 로 거부됨
+       → 원인·해결 문의 (코드 변경 없음, 가이드만)
+────────────────────────────────────────────────────────────────────────────
+[ASSISTANT]
+- 원인: 다른 PC(별도 로컬 클론)에서 커밋(MarkdownDoc.jsx 수정, 새 파일 3개 등)을
+  만드는 사이, 이 세션에서 동영상 업로드 기능 커밋(7e3e7d0)을 먼저 origin/master 에
+  push 해서 그 PC의 로컬 master 가 뒤처진 상태가 됨 — 여러 PC로 작업할 때 흔히
+  생기는 정상적인 상황(작업이 깨진 게 아님).
+- 해결 안내: 그 PC에서 `git pull origin master` 로 받은 뒤 `git push origin master`.
+  두 변경분이 건드린 파일이 전혀 겹치지 않아(이 세션 쪽=CLAUDE.md·dialog.txt·
+  Photos.jsx·AdminPhotos.jsx 등 / 그 PC 쪽=MarkdownDoc.jsx·settings.local.json·
+  public/photos/ZARD/*·새 파일 3개) 충돌 없이 자동 merge 될 것으로 안내.
+- 참고로 짚어준 점: public/photos/ZARD/ 사진들이 "modified"로 뜨는 건 autocrlf
+  줄바꿈 변환 때문일 가능성이 높아(내용은 그대로) pull 전 `git diff --stat` 로 확인
+  권장. 409.txt·err.png·한글.png 는 이름상 디버깅/스크린샷 파일처럼 보여 의도한
+  커밋 대상인지 재확인 권장(실제 결론은 사용자가 직접 확인하기로 함).
+
+
+────────────────────────────────────────────────────────────────────────────
+[USER] /admin 업로드·삭제가 다른 PC 의 git pull 에도 반영되는지 / "pull→claude→
+       add·commit·push" 순서만 지키면 어떤 프로젝트든 멀티 PC 공유 작업이 되는지
+       (둘 다 질문/가이드, 코드 변경 없음)
+────────────────────────────────────────────────────────────────────────────
+[ASSISTANT]
+- /admin 업로드·삭제는 GitHub Contents/Git Data API 로 만든 실제 git 커밋이라
+  로컬에서 직접 커밋한 것과 동일 — 다른 PC에서 `git pull origin master` 하면
+  추가된 파일은 생성되고 삭제된 파일은 로컬에서도 자동으로 지워짐(둘 다 반영).
+  단, src/data/photos.generated.json 은 git 에 안 올라가는 빌드 산출물이라 pull
+  후 로컬에서 dev/build 를 한 번 돌려야 목록·썸네일이 갱신됨.
+- 멀티 PC 워크플로(pull → 작업 → add/commit/push) 자체는 맞는 표준 패턴이지만
+  완전 안전하진 않다고 안내:
+  · 작업 도중 다른 쪽(다른 PC 또는 이 프로젝트의 /admin 자체)이 먼저 push 하면
+    끝나고 push 할 때 또 rejected 날 수 있음 → push 직전에도 한 번 더 pull 권장.
+  · 같은 파일 같은 줄을 동시에 고치면 pull 시 진짜 충돌(merge conflict) 발생,
+    수동 해결 필요.
+  · `git add .` 를 무심코 쓰면 .claude/settings.local.json, 임시/스크린샷 파일처럼
+    의도치 않은 파일이 섞여 커밋될 수 있어 add 전 `git status` 확인 권장.
+  · 이 프로젝트는 /admin 웹 관리자가 "보이지 않는 또 하나의 PC"처럼 수시로 커밋을
+    만들 수 있어, 작업 시작 전 pull 을 빠뜨리지 않는 게 특히 중요.
+
+
 ================================================================================
 [현재 상태 요약]
 - 저장소: https://github.com/sk73-choi/my-website (공개) / 라이브: /my-website/
 - 배포: GitHub Actions (master push → 자동), 브랜치 master 단일
   · 2026-06-28: 대용량 사진 정리 위해 히스토리 1회 재작성(orphan+force push).
     이전 전체이력은 로컬 백업 번들(../my-website-backup-20260628-102713.bundle)에 보관.
+  · 여러 PC에서 같은 저장소를 각자 클론해 작업 중 — 한쪽에서 먼저 push 하면 다른
+    쪽은 push 전에 반드시 `git pull origin master` 로 먼저 받아야 함(흔한
+    "rejected (fetch first)" 오류의 원인, 작업이 겹치는 파일이 없으면 충돌 없이
+    자동 merge 됨).
 - 네비: 홈 · 소개 · 블로그 · 즐겨찾기 · 사진/영상 (+ 자료실=관리자 로그인 시에만)
   (+ 우상단 검색·다크토글, Ctrl+K)
 - 인증: AuthProvider 가 App 최상위(공개+관리자 공유). 자료실(/files)은 접근 코드
