@@ -47,8 +47,8 @@ const sections = [
   {
     to: '/admin/photos',
     icon: Camera,
-    title: '사진',
-    desc: '카테고리 · 이미지 업로드',
+    title: '사진/영상',
+    desc: '카테고리 · 이미지/영상 업로드',
     count: () => photoList.length,
     unit: '장',
   },

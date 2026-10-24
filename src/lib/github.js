@@ -87,6 +87,64 @@ export async function ghPutFileBase64(token, path, base64, message, sha) {
   return res.json()
 }
 
+// Git Data API(blob) 로 큰 바이너리 파일 커밋. Contents API(PUT)는 공식 한도가
+// 100MB 지만 실무에서는 50MB 근처부터 실패 사례가 있어, 동영상처럼 큰 파일은
+// blob → tree → commit → ref 갱신의 저수준 경로로 커밋한다.
+// (기존 파일을 덮어쓸 때도 sha 조회가 필요 없음: 새 트리에 같은 path 를 다시
+//  넣으면 그 경로가 새 blob 으로 교체된다)
+export async function ghPutFileBlob(token, path, base64, message) {
+  const headers = { ...authHeaders(token), 'Content-Type': 'application/json' }
+  const base = `${API}/repos/${REPO.owner}/${REPO.name}`
+
+  async function call(url, options, label) {
+    const res = await fetch(url, options)
+    if (!res.ok) {
+      const detail = await res.json().catch(() => ({}))
+      throw new Error(`${label} 실패 (${res.status}): ${detail.message ?? path}`)
+    }
+    return res.json()
+  }
+
+  const blob = await call(
+    `${base}/git/blobs`,
+    { method: 'POST', headers, body: JSON.stringify({ content: base64, encoding: 'base64' }) },
+    '업로드(blob 생성)',
+  )
+  const ref = await call(`${base}/git/ref/heads/${REPO.branch}`, { headers }, '업로드(브랜치 조회)')
+  const baseCommit = await call(
+    `${base}/git/commits/${ref.object.sha}`,
+    { headers },
+    '업로드(커밋 조회)',
+  )
+  const tree = await call(
+    `${base}/git/trees`,
+    {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        base_tree: baseCommit.tree.sha,
+        tree: [{ path, mode: '100644', type: 'blob', sha: blob.sha }],
+      }),
+    },
+    '업로드(트리 생성)',
+  )
+  const commit = await call(
+    `${base}/git/commits`,
+    {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ message, tree: tree.sha, parents: [ref.object.sha] }),
+    },
+    '업로드(커밋 생성)',
+  )
+  await call(
+    `${base}/git/refs/heads/${REPO.branch}`,
+    { method: 'PATCH', headers, body: JSON.stringify({ sha: commit.sha }) },
+    '업로드(브랜치 갱신)',
+  )
+  return commit
+}
+
 // 파일이 이미 있으면 sha 반환(덮어쓰기용), 없으면 null
 export async function ghGetSha(token, path) {
   const file = await ghGetFile(token, path).catch(() => null)

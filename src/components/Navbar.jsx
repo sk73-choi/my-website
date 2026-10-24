@@ -11,7 +11,7 @@ const navItems = [
   { to: '/about', label: '소개' },
   { to: '/blog', label: '블로그' },
   { to: '/favorites', label: '즐겨찾기' },
-  { to: '/photos', label: '사진' },
+  { to: '/photos', label: '사진/영상' },
   { to: '/files', label: '자료실' },
 ]
 

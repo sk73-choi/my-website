@@ -44,6 +44,17 @@ export function categoryFolder(cat) {
   return cat.replace(/[\\/\s]+/g, '-') || 'etc'
 }
 
+// 동영상 파일 여부 (확장자 기준, scripts/generate-photos.mjs 의 VIDEO_RE 와 동일)
+const VIDEO_RE = /\.(mp4|webm|mov|m4v)$/i
+export function isVideoFile(file) {
+  return file.type.startsWith('video/') || VIDEO_RE.test(file.name)
+}
+
+// 업로드 허용 최대 용량(동영상): 50MB. GitHub Contents API(PUT)는 공식 한도가
+// 100MB 이지만 실제로는 50MB 근처부터 실패하는 경우가 있어, 동영상은
+// Git Data API(blob)로 커밋하되 업로드 전 용량도 50MB 로 제한해 둔다.
+export const MAX_VIDEO_BYTES = 50 * 1024 * 1024
+
 // File → HTMLImageElement
 function loadImage(file) {
   return new Promise((resolve, reject) => {

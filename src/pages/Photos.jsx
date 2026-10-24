@@ -9,6 +9,7 @@ import {
   LayoutGrid,
   List,
   Film,
+  Play,
 } from 'lucide-react'
 import { getSortedPhotos, categories } from '../data/photos'
 import { PageWrapper } from '../components/motion'
@@ -81,14 +82,14 @@ function Photos() {
 
   return (
     <PageWrapper>
-      <Seo title="사진" description="여행·취미 등 사진 갤러리." path="/photos" />
+      <Seo title="사진/영상" description="여행·취미 등 사진·동영상 갤러리." path="/photos" />
 
       <header className="mb-8">
         <h1 className="text-4xl font-extrabold tracking-tight">
-          <span className="text-grad-rose">사진</span>
+          <span className="text-grad-rose">사진/영상</span>
         </h1>
         <p className="mt-2 text-gray-600 dark:text-gray-400">
-          카테고리별 사진 갤러리입니다. 썸네일을 누르면 원본을 볼 수 있어요.
+          카테고리별 사진·동영상 갤러리입니다. 썸네일을 누르면 원본을 볼 수 있어요.
         </p>
       </header>
 
@@ -165,15 +166,34 @@ function Photos() {
                 onClick={() => setIndex(offset + i)}
                 className="glass flex w-full items-center gap-4 rounded-2xl p-2 text-left transition-all hover:scale-[1.01]"
               >
-                <img
-                  src={base + photo.thumb}
-                  alt={photo.title}
-                  loading="lazy"
-                  className={[
-                    'h-16 w-16 flex-none rounded-xl object-cover',
-                    photo.animated ? 'ring-2 ring-pink-500' : '',
-                  ].join(' ')}
-                />
+                <div className="relative h-16 w-16 flex-none overflow-hidden rounded-xl">
+                  {photo.video ? (
+                    <video
+                      src={`${base + photo.src}#t=0.5`}
+                      muted
+                      playsInline
+                      preload="metadata"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={base + photo.thumb}
+                      alt={photo.title}
+                      loading="lazy"
+                      className={[
+                        'h-full w-full object-cover',
+                        photo.animated ? 'ring-2 ring-pink-500' : '',
+                      ].join(' ')}
+                    />
+                  )}
+                  {photo.video && (
+                    <Play
+                      size={18}
+                      className="absolute inset-0 m-auto text-white drop-shadow"
+                      fill="white"
+                    />
+                  )}
+                </div>
                 <div className="min-w-0 flex-1">
                   <p className="flex items-center gap-1.5 font-medium text-gray-800 dark:text-gray-100">
                     <span className="truncate">{photo.title}</span>
@@ -181,6 +201,12 @@ function Photos() {
                       <span className="flex flex-none items-center gap-0.5 rounded-full bg-pink-500/15 px-1.5 py-0.5 text-[10px] font-bold text-pink-600 dark:text-pink-300">
                         <Film size={10} />
                         움직임
+                      </span>
+                    )}
+                    {photo.video && (
+                      <span className="flex flex-none items-center gap-0.5 rounded-full bg-indigo-500/15 px-1.5 py-0.5 text-[10px] font-bold text-indigo-600 dark:text-indigo-300">
+                        <Play size={10} />
+                        영상
                       </span>
                     )}
                   </p>
@@ -216,18 +242,42 @@ function Photos() {
                   : '',
               ].join(' ')}
             >
-              <img
-                src={base + photo.thumb}
-                alt={photo.title}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
+              {photo.video ? (
+                <video
+                  src={`${base + photo.src}#t=0.5`}
+                  muted
+                  playsInline
+                  preload="metadata"
+                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              ) : (
+                <img
+                  src={base + photo.thumb}
+                  alt={photo.title}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              )}
               {/* 움직임 배지 */}
               {photo.animated && (
                 <span className="absolute left-1.5 top-1.5 flex items-center gap-0.5 rounded-full bg-pink-600/90 px-1.5 py-0.5 text-[10px] font-bold text-white shadow-sm backdrop-blur-sm">
                   <Film size={11} />
                   움직임
                 </span>
+              )}
+              {/* 영상 배지 + 재생 아이콘 */}
+              {photo.video && (
+                <>
+                  <span className="absolute left-1.5 top-1.5 flex items-center gap-0.5 rounded-full bg-indigo-600/90 px-1.5 py-0.5 text-[10px] font-bold text-white shadow-sm backdrop-blur-sm">
+                    <Play size={11} />
+                    영상
+                  </span>
+                  <Play
+                    size={36}
+                    className="absolute inset-0 m-auto text-white/90 drop-shadow-lg"
+                    fill="white"
+                  />
+                </>
               )}
               {photo.title && (
                 <span className="absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-black/60 to-transparent px-2 py-1.5 text-left text-xs font-medium text-white">
@@ -307,11 +357,20 @@ function Photos() {
               onClick={(e) => e.stopPropagation()}
               className="max-h-[88vh] max-w-3xl"
             >
-              <img
-                src={base + current.src}
-                alt={current.title}
-                className="max-h-[80vh] w-auto rounded-lg object-contain"
-              />
+              {current.video ? (
+                <video
+                  src={base + current.src}
+                  controls
+                  autoPlay
+                  className="max-h-[80vh] w-auto rounded-lg"
+                />
+              ) : (
+                <img
+                  src={base + current.src}
+                  alt={current.title}
+                  className="max-h-[80vh] w-auto rounded-lg object-contain"
+                />
+              )}
               <figcaption className="mt-2 text-center text-sm text-white/80">
                 {current.title} · {current.category}
               </figcaption>
