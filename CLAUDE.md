@@ -27,8 +27,8 @@ GitHub Pages로 배포. 파일 자료실(PDF/PPT/Excel/Word/MD) 포함.
 - public/files/: 업로드 파일 저장소 (카테고리별 폴더)
  
 ## 네비게이션 순서
-홈 · 소개 · 블로그 · 즐겨찾기 · 사진 · (자료실=관리자 로그인 시에만) (강조색: 홈=보라,
-소개=하늘, 블로그=초록(라임→틸), 즐겨찾기=주황, 사진=노랑→분홍, 자료실=보라)
+홈 · 소개 · 블로그 · 즐겨찾기 · 사진/영상 · (자료실=관리자 로그인 시에만) (강조색: 홈=보라,
+소개=하늘, 블로그=초록(라임→틸), 즐겨찾기=주황, 사진/영상=노랑→분홍, 자료실=보라)
 
 ## 자료실 접근 제한 (접근 코드 게이트)
 - 자료실(/files)은 접근 코드를 입력해야 열람 가능. 관리자(저장소 소유자 GitHub 토큰)
@@ -46,13 +46,23 @@ GitHub Pages로 배포. 파일 자료실(PDF/PPT/Excel/Word/MD) 포함.
 - 자료실: public/files/{카테고리}/ 폴더가 원본. 폴더에 파일 추가/삭제 → 빌드 시
   prebuild(scripts/generate-files.mjs)가 manifest(src/data/files.generated.json) 생성
   (제목=파일명, 유형·크기·날짜 자동). 관리자(/admin/files)도 같은 폴더를 편집.
-- 사진: public/photos/{카테고리}/ 폴더가 원본. 폴더에 이미지 추가/삭제 → 빌드 시
-  prebuild(scripts/generate-photos.mjs)가 썸네일(.../thumbs/) + manifest
-  (src/data/photos.generated.json) 생성. 관리자(/admin/photos)도 같은 폴더를 편집.
+- 사진/영상: public/photos/{카테고리}/ 폴더가 원본(이미지+동영상 혼합, 카테고리는
+  "개인_영상"·"ZARD_영상"처럼 영상 전용 카테고리도 둘 수 있음). 폴더에 파일 추가/삭제
+  → 빌드 시 prebuild(scripts/generate-photos.mjs)가 이미지 썸네일(.../thumbs/) +
+  manifest(src/data/photos.generated.json) 생성. 관리자(/admin/photos)도 같은 폴더를 편집.
   · 프레임 2장↑ 이미지는 manifest 에 animated:true → 사진 페이지에서 "움직임" 배지.
+  · 동영상(mp4/webm/mov/m4v)은 manifest 에 video:true. sharp 로 썸네일을 만들 수
+    없어 `<video src="원본#t=0.5" preload="metadata">` 시간 프래그먼트로 미리보기
+    프레임을 보여주고, 그리드/목록 클릭 시 라이트박스에서 `<video controls autoPlay>`
+    로 페이지 이탈 없이 바로 재생.
+  · 동영상 업로드는 파일당 50MB 제한(클라이언트에서 검사, 초과 시 건너뜀).
+    GitHub Contents API(PUT)는 공식 한도 100MB 지만 50MB 근처부터 실패 사례가 있어
+    동영상은 Git Data API(blob→tree→commit→ref, src/lib/github.js 의 ghPutFileBlob)로
+    커밋. 이미지는 기존대로 Contents API(ghPutFileBase64) 사용.
+  · 관리자 업로드는 원본 그대로 커밋(압축 없음) — 용량 관리는 아직 미해결 과제.
   · 사진 추가 후 커밋 전 권장: `npm run optimize:photos` (scripts/optimize-photos.mjs)
     — 정지 이미지 1600px 재압축 + 움직이는 GIF→애니메이션 WebP 변환(용량 관리).
-    관리자 업로드 경로엔 자동 적용 안 됨(폴더 방식에서 수동 실행).
+    관리자 업로드 경로엔 자동 적용 안 됨(폴더 방식에서 수동 실행, 동영상은 미지원).
 - 소개: content/about.md  (frontmatter 프로필 + 소개/스킬/발자취 섹션)
 - 즐겨찾기: content/favorites.md  (## 카테고리 + "- [제목](URL) — 설명" 링크)
 - 소개·즐겨찾기는 content/*.md 가 단일 원본 → 파일 직접 수정/push 또는 관리자(/admin)

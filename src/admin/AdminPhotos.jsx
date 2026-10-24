@@ -2,12 +2,21 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { LoaderCircle, Plus, Trash2, Upload, RefreshCw } from 'lucide-react'
 import { useAuth } from './AuthContext'
 import { AdminShell, StatusBanner } from './AdminShell'
-import { ghListDir, ghPutFileBase64, ghGetSha, ghDeleteFile } from '../lib/github'
-import { fileToBase64, safeFileName, categoryFolder } from '../lib/upload'
+import { ghListDir, ghPutFileBase64, ghPutFileBlob, ghGetSha, ghDeleteFile } from '../lib/github'
+import {
+  fileToBase64,
+  safeFileName,
+  categoryFolder,
+  isVideoFile,
+  humanSize,
+  MAX_VIDEO_BYTES,
+} from '../lib/upload'
 
 const ROOT = 'public/photos'
-const PREFERRED = ['여행', '정보', 'ZARD', '취미', '개인']
+const PREFERRED = ['여행', '정보', 'ZARD', 'ZARD_영상', '취미', '개인', '개인_영상']
 const IMG_RE = /\.(jpe?g|png|webp|gif|avif)$/i
+const VIDEO_RE = /\.(mp4|webm|mov|m4v)$/i
+const MEDIA_RE = new RegExp(`${IMG_RE.source}|${VIDEO_RE.source}`, 'i')
 
 function AdminPhotos() {
   const { token } = useAuth()
@@ -34,8 +43,14 @@ function AdminPhotos() {
     for (const name of ordered) {
       const items = await ghListDir(token, `${ROOT}/${name}`)
       const photos = items
-        .filter((it) => it.type === 'file' && IMG_RE.test(it.name))
-        .map((it) => ({ name: it.name, path: it.path, sha: it.sha, url: it.download_url }))
+        .filter((it) => it.type === 'file' && MEDIA_RE.test(it.name))
+        .map((it) => ({
+          name: it.name,
+          path: it.path,
+          sha: it.sha,
+          url: it.download_url,
+          video: VIDEO_RE.test(it.name),
+        }))
       result.push({ name, photos })
     }
     return { ordered, result }
@@ -98,15 +113,22 @@ function AdminPhotos() {
     }
   }
 
-  // 이미지 업로드(원본을 폴더에 커밋). 썸네일은 배포 빌드 때 자동 생성.
+  // 이미지/동영상 업로드(원본을 폴더에 커밋). 썸네일은 배포 빌드 때 자동 생성.
+  // 동영상은 50MB 초과 시 건너뛰고, 더 안정적인 Git Data API(blob)로 커밋한다.
   async function onPickFiles(fileList) {
-    const files = Array.from(fileList).filter((f) => f.type.startsWith('image/'))
-    if (files.length === 0) return
+    const picked = Array.from(fileList).filter(
+      (f) => f.type.startsWith('image/') || isVideoFile(f),
+    )
+    if (picked.length === 0) return
     if (!uploadCat) {
       setStatus('error')
       setMessage('업로드할 카테고리를 선택하세요.')
       return
     }
+
+    const tooBig = picked.filter((f) => isVideoFile(f) && f.size > MAX_VIDEO_BYTES)
+    const files = picked.filter((f) => !tooBig.includes(f))
+
     setBusy(true)
     setStatus('saving')
     setMessage(null)
@@ -116,12 +138,30 @@ function AdminPhotos() {
         const filename = safeFileName(file.name)
         const path = `${ROOT}/${uploadCat}/${filename}`
         const b64 = await fileToBase64(file)
-        await ghPutFileBase64(token, path, b64, `사진 업로드: ${uploadCat}/${filename}`, await ghGetSha(token, path))
+        if (isVideoFile(file)) {
+          await ghPutFileBlob(token, path, b64, `동영상 업로드: ${uploadCat}/${filename}`)
+        } else {
+          await ghPutFileBase64(
+            token,
+            path,
+            b64,
+            `사진 업로드: ${uploadCat}/${filename}`,
+            await ghGetSha(token, path),
+          )
+        }
         n += 1
       }
       await refresh()
-      setStatus('success')
-      setMessage(`${n}장 업로드 완료. 배포(약 1~2분) 후 사이트에 반영됩니다.`)
+      if (tooBig.length > 0) {
+        setStatus('error')
+        setMessage(
+          `${n}개 업로드 완료, ${tooBig.length}개는 50MB 초과로 건너뜀: ` +
+            tooBig.map((f) => `${f.name}(${humanSize(f.size)})`).join(', '),
+        )
+      } else {
+        setStatus('success')
+        setMessage(`${n}개 업로드 완료. 배포(약 1~2분) 후 사이트에 반영됩니다.`)
+      }
     } catch (e) {
       setStatus('error')
       setMessage(e.message)
@@ -203,7 +243,7 @@ function AdminPhotos() {
           <input
             ref={fileRef}
             type="file"
-            accept="image/*"
+            accept="image/*,video/*"
             multiple
             className="hidden"
             onChange={(e) => {
@@ -218,9 +258,10 @@ function AdminPhotos() {
             className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-yellow-400 to-pink-500 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-pink-500/30 hover:scale-[1.03] disabled:opacity-60"
           >
             {busy ? <LoaderCircle size={15} className="animate-spin" /> : <Upload size={15} />}
-            이미지 업로드(여러 장)
+            사진/영상 업로드(여러 개)
           </button>
         </div>
+        <p className="mt-2 text-xs text-gray-400">동영상은 파일당 50MB 까지 업로드할 수 있습니다.</p>
 
         <div className="flex gap-2 border-t border-gray-200/60 pt-3 dark:border-white/10">
           <input
@@ -256,12 +297,22 @@ function AdminPhotos() {
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
               {cat.photos.map((photo) => (
                 <div key={photo.path} className="glass overflow-hidden rounded-2xl">
-                  <img
-                    src={photo.url}
-                    alt={photo.name}
-                    loading="lazy"
-                    className="aspect-square w-full object-cover"
-                  />
+                  {photo.video ? (
+                    <video
+                      src={`${photo.url}#t=0.5`}
+                      muted
+                      playsInline
+                      preload="metadata"
+                      className="aspect-square w-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={photo.url}
+                      alt={photo.name}
+                      loading="lazy"
+                      className="aspect-square w-full object-cover"
+                    />
+                  )}
                   <div className="flex items-center justify-between gap-1 p-2">
                     <span className="truncate text-xs text-gray-500 dark:text-gray-400">
                       {photo.name}

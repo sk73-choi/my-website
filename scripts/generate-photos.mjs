@@ -13,8 +13,9 @@ import { join, dirname } from 'node:path'
 
 const ROOT = 'public/photos'
 const OUT = 'src/data/photos.generated.json'
-const PREFERRED = ['여행', '정보', 'ZARD', '취미', '개인']
+const PREFERRED = ['여행', '정보', 'ZARD', 'ZARD_영상', '취미', '개인', '개인_영상']
 const IMG_RE = /\.(jpe?g|png|webp|gif|avif)$/i
+const VIDEO_RE = /\.(mp4|webm|mov|m4v)$/i
 const THUMB_MAX = 480
 
 // sharp 가 없거나 실패하면 썸네일 대신 원본 사용(빌드는 절대 깨지지 않게)
@@ -73,12 +74,30 @@ for (const cat of categories) {
   const dir = join(ROOT, cat)
   let files = []
   try {
-    files = readdirSync(dir).filter((f) => IMG_RE.test(f))
+    files = readdirSync(dir).filter((f) => IMG_RE.test(f) || VIDEO_RE.test(f))
   } catch {
     files = []
   }
   for (const file of files) {
     const srcFile = join(dir, file)
+    const date = statSync(srcFile).mtime.toISOString().slice(0, 10)
+
+    if (VIDEO_RE.test(file)) {
+      // 동영상: sharp 로 썸네일을 만들 수 없어 원본 경로를 그대로 쓰고,
+      // 재생 화면에서 <video> 태그의 시간 프래그먼트로 미리보기 프레임을 보여준다.
+      const baseName = file.replace(VIDEO_RE, '')
+      photos.push({
+        id: `${cat}/${file}`,
+        category: cat,
+        title: baseName,
+        src: `/photos/${cat}/${file}`,
+        thumb: `/photos/${cat}/${file}`,
+        date,
+        video: true,
+      })
+      continue
+    }
+
     const baseName = file.replace(IMG_RE, '')
     // 썸네일 이름에 원본 파일명 전체(확장자 포함)를 사용해 충돌 방지.
     // (예: ZARD.png · ZARD.jpg 처럼 확장자만 다른 동명 파일이 서로 덮어쓰지 않도록)
@@ -86,7 +105,6 @@ for (const cat of categories) {
     const thumbFile = join(dir, 'thumbs', thumbName)
     const ok = await makeThumb(srcFile, thumbFile)
     const animated = await isAnimated(srcFile)
-    const date = statSync(srcFile).mtime.toISOString().slice(0, 10)
     photos.push({
       id: `${cat}/${file}`,
       category: cat,
