@@ -362,6 +362,8 @@ function Photos() {
                   src={base + current.src}
                   controls
                   autoPlay
+                  controlsList="nodownload" // 플레이어의 다운로드 버튼 숨김
+                  onContextMenu={(e) => e.preventDefault()} // 우클릭 '다른 이름으로 저장' 차단
                   className="max-h-[80vh] w-auto rounded-lg"
                 />
               ) : (
