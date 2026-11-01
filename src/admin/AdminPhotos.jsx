@@ -1,5 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { LoaderCircle, Plus, Trash2, Upload, RefreshCw } from 'lucide-react'
+import {
+  LoaderCircle,
+  Plus,
+  Trash2,
+  Upload,
+  RefreshCw,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react'
 import { useAuth } from './AuthContext'
 import { AdminShell, StatusBanner } from './AdminShell'
 import { ghListDir, ghPutFileBase64, ghPutFileBlob, ghGetSha, ghDeleteFile } from '../lib/github'
@@ -17,6 +25,94 @@ const PREFERRED = ['여행', '정보', 'ZARD', 'ZARD_영상', '취미', '개인'
 const IMG_RE = /\.(jpe?g|png|webp|gif|avif)$/i
 const VIDEO_RE = /\.(mp4|webm|mov|m4v)$/i
 const MEDIA_RE = new RegExp(`${IMG_RE.source}|${VIDEO_RE.source}`, 'i')
+
+const PER_PAGE = 20 // 카테고리별 페이지당 표시 수
+
+// 카테고리 한 개의 사진 목록(페이지 단위 표시 — 카테고리마다 독립된 페이지 상태)
+function CategorySection({ cat, busy, onRemove }) {
+  const [page, setPage] = useState(0)
+  const total = cat.photos.length
+  const totalPages = Math.max(1, Math.ceil(total / PER_PAGE))
+  const cur = Math.min(page, totalPages - 1) // 삭제로 페이지 수가 줄어든 경우 보정
+  const shown = cat.photos.slice(cur * PER_PAGE, cur * PER_PAGE + PER_PAGE)
+  const btn =
+    'glass flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium text-gray-600 transition-all hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40 dark:text-gray-300'
+
+  return (
+    <section className="mb-6">
+      <h2 className="mb-2 font-semibold text-gray-900 dark:text-white">
+        {cat.name} <span className="text-xs font-normal text-gray-400">({total})</span>
+      </h2>
+      {total === 0 ? (
+        <p className="glass rounded-2xl py-6 text-center text-xs text-gray-400">사진 없음</p>
+      ) : (
+        <>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {shown.map((photo) => (
+              <div key={photo.path} className="glass overflow-hidden rounded-2xl">
+                {photo.video ? (
+                  <video
+                    src={`${photo.url}#t=0.5`}
+                    muted
+                    playsInline
+                    preload="metadata"
+                    className="aspect-square w-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src={photo.url}
+                    alt={photo.name}
+                    loading="lazy"
+                    className="aspect-square w-full object-cover"
+                  />
+                )}
+                <div className="flex items-center justify-between gap-1 p-2">
+                  <span className="truncate text-xs text-gray-500 dark:text-gray-400">
+                    {photo.name}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => onRemove(photo)}
+                    disabled={busy}
+                    className="shrink-0 rounded-full bg-red-500/10 p-1.5 text-red-600 hover:bg-red-500/20 disabled:opacity-60 dark:text-red-400"
+                    aria-label="삭제"
+                  >
+                    <Trash2 size={13} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          {total > PER_PAGE && (
+            <div className="mt-4 flex items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => setPage(Math.max(0, cur - 1))}
+                disabled={cur === 0}
+                className={btn}
+              >
+                <ChevronLeft size={16} />
+                이전
+              </button>
+              <span className="text-sm font-medium tabular-nums text-gray-500 dark:text-gray-400">
+                {cur + 1} / {totalPages}
+              </span>
+              <button
+                type="button"
+                onClick={() => setPage(Math.min(totalPages - 1, cur + 1))}
+                disabled={cur >= totalPages - 1}
+                className={btn}
+              >
+                다음
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          )}
+        </>
+      )}
+    </section>
+  )
+}
 
 function AdminPhotos() {
   const { token } = useAuth()
@@ -284,54 +380,7 @@ function AdminPhotos() {
 
       {/* 카테고리별 사진 */}
       {cats.map((cat) => (
-        <section key={cat.name} className="mb-6">
-          <h2 className="mb-2 font-semibold text-gray-900 dark:text-white">
-            {cat.name}{' '}
-            <span className="text-xs font-normal text-gray-400">({cat.photos.length})</span>
-          </h2>
-          {cat.photos.length === 0 ? (
-            <p className="glass rounded-2xl py-6 text-center text-xs text-gray-400">
-              사진 없음
-            </p>
-          ) : (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-              {cat.photos.map((photo) => (
-                <div key={photo.path} className="glass overflow-hidden rounded-2xl">
-                  {photo.video ? (
-                    <video
-                      src={`${photo.url}#t=0.5`}
-                      muted
-                      playsInline
-                      preload="metadata"
-                      className="aspect-square w-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src={photo.url}
-                      alt={photo.name}
-                      loading="lazy"
-                      className="aspect-square w-full object-cover"
-                    />
-                  )}
-                  <div className="flex items-center justify-between gap-1 p-2">
-                    <span className="truncate text-xs text-gray-500 dark:text-gray-400">
-                      {photo.name}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => removePhoto(photo)}
-                      disabled={busy}
-                      className="shrink-0 rounded-full bg-red-500/10 p-1.5 text-red-600 hover:bg-red-500/20 disabled:opacity-60 dark:text-red-400"
-                      aria-label="삭제"
-                    >
-                      <Trash2 size={13} />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
+        <CategorySection key={cat.name} cat={cat} busy={busy} onRemove={removePhoto} />
       ))}
     </AdminShell>
   )
