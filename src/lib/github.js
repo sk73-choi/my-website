@@ -110,39 +110,49 @@ export async function ghPutFileBlob(token, path, base64, message) {
     { method: 'POST', headers, body: JSON.stringify({ content: base64, encoding: 'base64' }) },
     '업로드(blob 생성)',
   )
-  const ref = await call(`${base}/git/ref/heads/${REPO.branch}`, { headers }, '업로드(브랜치 조회)')
-  const baseCommit = await call(
-    `${base}/git/commits/${ref.object.sha}`,
-    { headers },
-    '업로드(커밋 조회)',
-  )
-  const tree = await call(
-    `${base}/git/trees`,
-    {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        base_tree: baseCommit.tree.sha,
-        tree: [{ path, mode: '100644', type: 'blob', sha: blob.sha }],
-      }),
-    },
-    '업로드(트리 생성)',
-  )
-  const commit = await call(
-    `${base}/git/commits`,
-    {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ message, tree: tree.sha, parents: [ref.object.sha] }),
-    },
-    '업로드(커밋 생성)',
-  )
-  await call(
-    `${base}/git/refs/heads/${REPO.branch}`,
-    { method: 'PATCH', headers, body: JSON.stringify({ sha: commit.sha }) },
-    '업로드(브랜치 갱신)',
-  )
-  return commit
+  // 브랜치 조회 → 커밋 → ref 갱신. 직전 커밋 반영 지연이나 다른 push 와 겹치면
+  // 422(not a fast forward)가 나므로, 최신 ref 를 다시 읽어 몇 번 재시도한다.
+  const MAX_TRIES = 5
+  for (let attempt = 1; ; attempt += 1) {
+    const ref = await call(`${base}/git/ref/heads/${REPO.branch}`, { headers }, '업로드(브랜치 조회)')
+    const baseCommit = await call(
+      `${base}/git/commits/${ref.object.sha}`,
+      { headers },
+      '업로드(커밋 조회)',
+    )
+    const tree = await call(
+      `${base}/git/trees`,
+      {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          base_tree: baseCommit.tree.sha,
+          tree: [{ path, mode: '100644', type: 'blob', sha: blob.sha }],
+        }),
+      },
+      '업로드(트리 생성)',
+    )
+    const commit = await call(
+      `${base}/git/commits`,
+      {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ message, tree: tree.sha, parents: [ref.object.sha] }),
+      },
+      '업로드(커밋 생성)',
+    )
+    try {
+      await call(
+        `${base}/git/refs/heads/${REPO.branch}`,
+        { method: 'PATCH', headers, body: JSON.stringify({ sha: commit.sha }) },
+        '업로드(브랜치 갱신)',
+      )
+      return commit
+    } catch (e) {
+      if (attempt >= MAX_TRIES || !e.message.includes('(422)')) throw e
+      await new Promise((r) => setTimeout(r, 1000 * attempt))
+    }
+  }
 }
 
 // 파일이 이미 있으면 sha 반환(덮어쓰기용), 없으면 null
