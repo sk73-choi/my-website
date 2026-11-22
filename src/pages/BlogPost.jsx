@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -14,6 +15,27 @@ import Toc from '../components/Toc'
 import ScrollProgress from '../components/ScrollProgress'
 import Seo from '../components/Seo'
 import { SITE } from '../lib/site'
+import PagedGrid from '../components/PagedGrid'
+
+// 본문의 <div data-demo="이름"></div> → 인터랙티브 UI 데모(필요할 때만 로드)
+const UiDemo = lazy(() => import('../components/uiDemos'))
+
+function MdDiv({ node, ...props }) {
+  // 이미지 그리드(MAME 게임 목록 등)는 20개 단위 페이지로 나눠 표시
+  const cls = [].concat(node?.properties?.className ?? [])
+  if (cls.includes('mame-grid')) {
+    return <PagedGrid pageSize={20}>{props.children}</PagedGrid>
+  }
+  const demo = node?.properties?.dataDemo
+  if (demo) {
+    return (
+      <Suspense fallback={<div className="my-5 h-40 animate-pulse rounded-xl bg-gray-100 dark:bg-white/5" />}>
+        <UiDemo name={String(demo)} />
+      </Suspense>
+    )
+  }
+  return <div {...props} />
+}
 
 function BlogPost() {
   const { slug } = useParams()
@@ -100,7 +122,7 @@ function BlogPost() {
         </div>
       </header>
 
-      <div className="lg:flex lg:items-start lg:gap-8">
+      <div className="lg:flex lg:gap-8">
         {/* 본문 */}
         <article className="min-w-0 lg:flex-1">
           <div className="glass prose-custom rounded-2xl p-6 sm:p-8">
@@ -112,6 +134,7 @@ function BlogPost() {
                 h1: () => null,
                 img: MdImage,
                 pre: CodePre,
+                div: MdDiv,
               }}
             >
               {content}

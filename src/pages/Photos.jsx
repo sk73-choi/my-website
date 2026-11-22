@@ -10,14 +10,20 @@ import {
   List,
   Film,
   Play,
+  Lock,
 } from 'lucide-react'
 import { getSortedPhotos, categories } from '../data/photos'
 import { PageWrapper } from '../components/motion'
 import Seo from '../components/Seo'
+import AccessCodeForm from '../components/AccessCodeForm'
+import { useAuth } from '../admin/AuthContext'
+import { isAccessUnlocked } from '../lib/accessCode'
 
 const ALL = '전체'
 const base = import.meta.env.BASE_URL.replace(/\/$/, '')
 const PER_PAGE = 8 // 페이지당 사진 수(그리드·목록 보기)
+// 접근 코드를 입력해야 볼 수 있는 카테고리 (관리자 로그인 시엔 코드 없이 통과)
+const LOCKED_CATEGORIES = ['ZARD_영상']
 
 // 표시 방식: 전체(모두) / 그리드(8장) / 목록(8장)
 const VIEWS = [
@@ -31,17 +37,34 @@ function Photos() {
   const [view, setView] = useState('all') // 표시 방식
   const [page, setPage] = useState(0) // 페이지(그리드·목록 보기)
   const [index, setIndex] = useState(-1) // 라이트박스 대상 인덱스(-1=닫힘)
-  const all = getSortedPhotos()
+  const { user } = useAuth()
+  const [unlocked, setUnlocked] = useState(isAccessUnlocked)
+  const canViewLocked = !!user || unlocked
+  const everything = useMemo(() => getSortedPhotos(), [])
+
+  // 잠금 상태에서는 잠긴 카테고리의 사진이 '전체' 탭에도 섞여 나오지 않게 제외
+  const all = useMemo(
+    () =>
+      canViewLocked
+        ? everything
+        : everything.filter((p) => !LOCKED_CATEGORIES.includes(p.category)),
+    [everything, canViewLocked],
+  )
 
   const tabs = [ALL, ...categories]
-  const filtered = active === ALL ? all : all.filter((p) => p.category === active)
+  const isGated = LOCKED_CATEGORIES.includes(active) && !canViewLocked
+  const filtered = isGated
+    ? []
+    : active === ALL
+      ? all
+      : all.filter((p) => p.category === active)
 
   // 카테고리별 사진 장수(탭 배지용)
   const counts = useMemo(() => {
     const map = { [ALL]: all.length }
-    for (const p of all) map[p.category] = (map[p.category] || 0) + 1
+    for (const p of everything) map[p.category] = (map[p.category] || 0) + 1
     return map
-  }, [all])
+  }, [all, everything])
 
   // 페이지네이션(전체 보기는 페이지 없음)
   const paged =
@@ -108,6 +131,9 @@ function Photos() {
                 : 'glass text-gray-600 hover:scale-105 dark:text-gray-300',
             ].join(' ')}
           >
+            {LOCKED_CATEGORIES.includes(tab) && !canViewLocked && (
+              <Lock size={12} aria-label="접근 코드 필요" />
+            )}
             {tab}
             <span
               className={[
@@ -123,8 +149,16 @@ function Photos() {
         ))}
       </div>
 
+      {/* 접근 코드 게이트 (잠긴 카테고리 선택 시) */}
+      {isGated && (
+        <AccessCodeForm
+          description={`'${active}' 카테고리는 접근 코드를 입력해야 볼 수 있습니다.`}
+          onUnlock={() => setUnlocked(true)}
+        />
+      )}
+
       {/* 표시 방식 선택: 전체 / 그리드(8장) / 목록(8장) */}
-      <div className="mb-8 flex flex-wrap items-center gap-2">
+      <div className={`mb-8 flex-wrap items-center gap-2 ${isGated ? 'hidden' : 'flex'}`}>
         <span className="text-sm text-gray-500 dark:text-gray-400">보기</span>
         {VIEWS.map(({ id, label, icon: Icon }) => (
           <button
@@ -147,7 +181,7 @@ function Photos() {
       </div>
 
       {/* 사진 표시: 빈 상태 / 목록 보기 / 그리드(전체·8장) 보기 */}
-      {filtered.length === 0 ? (
+      {isGated ? null : filtered.length === 0 ? (
         <p className="glass rounded-2xl py-12 text-center text-sm text-gray-500 dark:text-gray-400">
           아직 등록된 사진이 없습니다.
         </p>

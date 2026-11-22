@@ -5,7 +5,10 @@ function Toc({ items }) {
   if (!items || items.length < 2) return null
 
   return (
-    <nav className="glass rounded-2xl p-4 text-sm" aria-label="목차">
+    <nav
+      className="glass rounded-2xl p-4 text-sm lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto"
+      aria-label="목차"
+    >
       <p className="mb-2 flex items-center gap-1.5 font-semibold text-gray-900 dark:text-white">
         <List size={15} /> 목차
       </p>

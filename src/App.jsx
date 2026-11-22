@@ -16,6 +16,9 @@ import { AuthProvider } from './admin/AuthContext'
 const BlogPost = lazy(() => import('./pages/BlogPost'))
 const Files = lazy(() => import('./pages/Files'))
 const AdminApp = lazy(() => import('./admin/AdminApp'))
+// 블로그 "바이브 코더용 Web UI" 글의 종합 프롬프트 데모(전체 화면, 공개 네비 없음)
+const LandingDemo = lazy(() => import('./pages/demos/LandingDemo'))
+const DashboardDemo = lazy(() => import('./pages/demos/DashboardDemo'))
 
 function Fallback() {
   return (
@@ -34,6 +37,8 @@ function App() {
       <Suspense fallback={<Fallback />}>
         <Routes>
           <Route path="/admin/*" element={<AdminApp />} />
+          <Route path="/demo/landing" element={<LandingDemo />} />
+          <Route path="/demo/dashboard" element={<DashboardDemo />} />
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="blog" element={<Blog />} />

@@ -38,11 +38,27 @@ GitHub Pages로 배포. 파일 자료실(PDF/PPT/Excel/Word/MD) 포함.
   아니면 접근 코드 입력 폼을 표시. 코드는 .env 의 VITE_FILES_ACCESS_CODE 로 설정
   (빌드 시 JS 번들에 평문 포함 — 비밀번호가 아닌 "문턱" 수준). 통과 시 localStorage 에
   코드 값을 저장해 재방문 시 다시 묻지 않음(코드 변경 시 기존 통과 기록 자동 무효화).
+- 같은 접근 코드를 사진/영상의 잠금 카테고리(Photos.jsx 의 LOCKED_CATEGORIES=['ZARD_영상'])도
+  공유. 공용 로직 src/lib/accessCode.js + 입력 폼 components/AccessCodeForm.jsx. 잠금 상태에선
+  해당 탭에 자물쇠+코드 입력 폼, '전체' 탭·배지에서도 그 카테고리 사진 제외. 관리자 로그인 시 통과.
+  잠글 카테고리를 늘리려면 LOCKED_CATEGORIES 에 폴더명 추가. 코드 값 위치: 로컬 .env(gitignore),
+  배포 = GitHub Secret VITE_FILES_ACCESS_CODE(deploy.yml 이 빌드 시 주입).
 - 한계: 정적 + 공개 저장소라 public/files 의 파일 직링크 자체는 차단 불가(목록·화면만
   가려짐). 진짜 차단은 비공개 저장소 + 인증 호스팅(예: Cloudflare Pages + Access) 필요.
  
 ## 콘텐츠 모델 (편집 대상)
 - 블로그 글: src/posts/{slug}.md (frontmatter + 본문, 이미지=public/blog-images/)
+  · 인터랙티브 데모: 본문에 `<div data-demo="이름"></div>` → BlogPost 의 div 렌더러가
+    src/components/uiDemos/ 레지스트리(index.jsx)의 컴포넌트로 교체(lazy 로드).
+    데모 안에선 .prose-custom 스타일이 섞이지 않게 p/ul/li/h*/a/img/code 대신
+    div/span/button 사용. 예: vibe-coder-web-ui-components.md (24개 UI 데모)
+  · 이미지 그리드(<div class="mame-grid">)는 BlogPost 가 PagedGrid 로 20개 단위 페이지
+    나눔(?p=N 로 URL 유지, Pagination.jsx). 글 오른쪽 목차(TOC)는 sticky 로 스크롤을 따라옴
+    (본문 래퍼는 items-start 를 쓰지 말 것 — aside 가 본문 높이만큼 늘어나야 sticky 동작).
+  · 전체 화면 데모 페이지: /demo/landing, /demo/dashboard (src/pages/demos/, Layout
+    밖 독립 라우트·라이트 테마 고정) — 위 글의 종합 프롬프트 결과물. 본문엔
+    data-demo="landing-page"/"dashboard-page" 로 iframe 미리보기(PagePreview.jsx).
+    분홍 [용어] 이름표 토글(demoKit.jsx, iframe 안에선 기본 ON).
 - 자료실: public/files/{카테고리}/ 폴더가 원본. 폴더에 파일 추가/삭제 → 빌드 시
   prebuild(scripts/generate-files.mjs)가 manifest(src/data/files.generated.json) 생성
   (제목=파일명, 유형·크기·날짜 자동). 관리자(/admin/files)도 같은 폴더를 편집.
