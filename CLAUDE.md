@@ -38,7 +38,8 @@ GitHub Pages로 배포. 파일 자료실(PDF/PPT/Excel/Word/MD) 포함.
   아니면 접근 코드 입력 폼을 표시. 코드는 .env 의 VITE_FILES_ACCESS_CODE 로 설정
   (빌드 시 JS 번들에 평문 포함 — 비밀번호가 아닌 "문턱" 수준). 통과 시 localStorage 에
   코드 값을 저장해 재방문 시 다시 묻지 않음(코드 변경 시 기존 통과 기록 자동 무효화).
-- 같은 접근 코드를 사진/영상의 잠금 카테고리(Photos.jsx 의 LOCKED_CATEGORIES=['ZARD_영상'])도
+- 같은 접근 코드를 사진/영상의 잠금 카테고리(Photos.jsx 의 LOCKED_CATEGORIES, 현재 ['ZARD_영상'] —
+  단 이 폴더의 영상은 저작권 이유로 2026-11-22 저장소·git 기록에서 제거됨, 로컬 보관)도
   공유. 공용 로직 src/lib/accessCode.js + 입력 폼 components/AccessCodeForm.jsx. 잠금 상태에선
   해당 탭에 자물쇠+코드 입력 폼, '전체' 탭·배지에서도 그 카테고리 사진 제외. 관리자 로그인 시 통과.
   잠글 카테고리를 늘리려면 LOCKED_CATEGORIES 에 폴더명 추가. 코드 값 위치: 로컬 .env(gitignore),
